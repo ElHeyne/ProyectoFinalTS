@@ -46,8 +46,8 @@ def acceso_login():
 
 @app.route("/cerrar-login", methods=["POST", "GET"])
 def cerrar_login():
-    session['user_id'] = None
-    return render_template("login.html")
+    session.pop('user_id',None)
+    return redirect(url_for("login"))
 
 # Definimos un bucle if main para ejecutar la web
 if __name__ == '__main__':
