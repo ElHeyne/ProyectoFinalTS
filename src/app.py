@@ -18,7 +18,24 @@ def login_required(original_function):
     @wraps(original_function)
     def decorated_function(*args, **kwargs):
         if 'user_id' not in session:
+            print("Not Logged In")
             return redirect(url_for('login'))
+        return original_function(*args, **kwargs)
+    return decorated_function
+
+def admin_login_required(original_function):
+    @wraps(original_function)
+    def decorated_function(*args, **kwargs):
+        redirect_url=None
+        if 'user_id' not in session:
+            print("Not Logged In")
+            redirect_url = url_for('login')
+        elif session['role_id'] != 0:
+            print("Insuficient Roles")
+            redirect_url = url_for('home')
+
+        if redirect_url:
+            return redirect(redirect_url)
         return original_function(*args, **kwargs)
     return decorated_function
 
@@ -32,21 +49,33 @@ def home():
 def login():
     return render_template("login.html")
 
+@app.route("/admin-panel")
+@admin_login_required
+def admin_panel():
+    return render_template("admin.html")
+
 @app.route("/acceso-login", methods=["POST", "GET"])
 def acceso_login():
     if request.method == 'POST':
         _correo = request.form['txtEmail']
         _password = request.form['txtPassword']
-        print(_correo, _password)
         user=db.session.query(Users).filter_by(user_email=_correo).first()
         if user and _password == user.user_password:
             session['user_id'] = user.user_id
-            return redirect(url_for("home"))
+            session['role_id'] = user.role_id
+            session['login'] = True
+            if session['role_id']==0:
+                return redirect(url_for("admin_panel"))
+            elif session['role_id']==1:
+                return redirect(url_for("home"))
+            else:
+                return render_template("login.html", mensaje="Error de Privilegios")
     return render_template("login.html", mensaje="Usuario Incorrecto")
 
 @app.route("/cerrar-login", methods=["POST", "GET"])
 def cerrar_login():
     session.pop('user_id',None)
+    session.pop('role_id', None)
     return redirect(url_for("login"))
 
 # Definimos un bucle if main para ejecutar la web
