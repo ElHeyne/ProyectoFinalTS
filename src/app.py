@@ -49,13 +49,17 @@ def home():
 def login():
     return render_template("login.html")
 
+@app.route("/register")
+def register():
+    return render_template("register.html")
+
 @app.route("/admin-panel")
 @admin_login_required
 def admin_panel():
     return render_template("admin.html")
 
-@app.route("/acceso-login", methods=["POST", "GET"])
-def acceso_login():
+@app.route("/login-access", methods=["POST", "GET"])
+def acceso_login(): # TODO optimizar los returns aplicando variable de url y de mensaje
     if request.method == 'POST':
         _correo = request.form['txtEmail']
         _password = request.form['txtPassword']
@@ -69,8 +73,18 @@ def acceso_login():
             elif session['role_id']==1:
                 return redirect(url_for("home"))
             else:
-                return render_template("login.html", mensaje="Error de Privilegios")
-    return render_template("login.html", mensaje="Usuario Incorrecto")
+                return render_template("login.html", error_message="Error de Privilegios")
+    return render_template("login.html", error_message="Usuario Incorrecto")
+
+@app.route("/register-access", methods=["POST", "GET"])
+def acceso_registro(): # TODO optimizar los returns aplicando variable de url y de mensaje
+    if request.method == 'POST':
+        user = Users(user_name=request.form['txtUserName'], user_email=request.form['txtEmail'], user_password=request.form['txtPassword'], role_id=1)
+        print(user)
+        db.session.add(user)
+        db.session.commit()
+        return render_template("login.html", success_message="Usuario Creado")
+    return render_template("register.html", error_message="Error de Endpoint")
 
 @app.route("/cerrar-login", methods=["POST", "GET"])
 def cerrar_login():

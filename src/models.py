@@ -1,24 +1,28 @@
 import db
 from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
 
+
 class Users(db.Base):
     __tablename__ = "users"
-    user_id = Column(Integer, primary_key=True, autoincrement=True)
+    user_id = Column(Integer, primary_key=True)
     role_id = Column(Integer, ForeignKey("roles.role_id"), nullable=False)
     user_email = Column(String(200), nullable=False)
     user_password = Column(String(200), nullable=False)
 
-
-    def __init__(self, user_email, user_password, admin):
+    def __init__(self, role_id, user_email, user_password, user_name):
+        self.role_id = role_id
         self.user_email = user_email
         self.user_password = user_password
-        self.admin = admin
+        self.user_name = user_name
 
     def __repr__(self):
-        return "User {}: {} {} ({})".format(self.user_id, self.user_name, self.user_password, self.admin)
+        return "User {}: {} {} {} {}".format(self.user_id, self.user_name, self.user_email, self.user_password,
+                                             self.role_id)
 
     def __str__(self):
-        return "User {}: {} {} ({})".format(self.user_id, self.user_name, self.user_password, self.admin)
+        return "User {}: {} {} {} {}".format(self.user_id, self.user_name, self.user_email, self.user_password,
+                                             self.role_id)
+
 
 class Roles(db.Base):
     __tablename__ = "roles"
