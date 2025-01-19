@@ -8,6 +8,7 @@ class Users(db.Base):
     role_id = Column(Integer, ForeignKey("roles.role_id"), nullable=False)
     user_email = Column(String(200), nullable=False)
     user_password = Column(String(200), nullable=False)
+    user_name = Column(String(200), nullable=False, default="user_name")
 
     def __init__(self, role_id, user_email, user_password, user_name):
         self.role_id = role_id
@@ -16,12 +17,10 @@ class Users(db.Base):
         self.user_name = user_name
 
     def __repr__(self):
-        return "User {}: {} {} {} {}".format(self.user_id, self.user_name, self.user_email, self.user_password,
-                                             self.role_id)
+        return "User {}: {} {} {} {}".format(self.user_id, self.user_name, self.user_email, self.user_password, self.role_id)
 
     def __str__(self):
-        return "User {}: {} {} {} {}".format(self.user_id, self.user_name, self.user_email, self.user_password,
-                                             self.role_id)
+        return "User {}: {} {} {} {}".format(self.user_id, self.user_name, self.user_email, self.user_password, self.role_id)
 
 
 class Roles(db.Base):
