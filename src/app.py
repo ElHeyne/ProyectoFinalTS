@@ -1,7 +1,7 @@
 # --- Fichero Principal --- #
 
 # Importaciones
-from flask import Flask, render_template, request, redirect, Response, url_for, session
+from flask import Flask, render_template, request, redirect, Response, url_for, session, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_session import Session
 from functools import wraps
@@ -81,9 +81,9 @@ def acceso_login():  # TODO Explicar en documentación
             session['login'] = True
 
             if session['role_id'] == 0:
-                template = "admin.html"
+                return redirect(url_for("admin_panel"))
             elif session['role_id'] == 1:
-                template = "index.html"
+                return redirect(url_for("home"))
             else:
                 context["error_message"] = "Error de Privilegios"
         else:
@@ -107,8 +107,11 @@ def acceso_registro():  # TODO Esplicar en documentacion (context con dos variab
 
         try:
             db.session.commit()
-            template = "login.html"
-            context["success_message"] = "Usuario Creado"
+            flash("Usuario Creado")
+            return redirect(url_for("login"))
+        
+            # template = "login.html"
+            # context["success_message"] = "Usuario Creado"
 
         except:
             context["error_message"] = "Error Inseperado"
