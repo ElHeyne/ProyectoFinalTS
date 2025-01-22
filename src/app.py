@@ -6,6 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_session import Session
 from functools import wraps
 from models import Users
+from werkzeug.security import generate_password_hash, check_password_hash
 import db
 import os
 import platform
@@ -46,7 +47,8 @@ def admin_login_required(original_function):
 @app.route("/")
 @login_required
 def home():
-    return render_template("index.html")
+    print(session['is_admin'], session['role_id'])
+    return render_template("index.html", is_admin=session["is_admin"])
 
 
 @app.route("/login")
@@ -81,8 +83,10 @@ def acceso_login():  # TODO Explicar en documentación
             session['login'] = True
 
             if session['role_id'] == 0:
+                session['is_admin'] = True
                 return redirect(url_for("admin_panel"))
             elif session['role_id'] == 1:
+                session['is_admin'] = False
                 return redirect(url_for("home"))
             else:
                 context["error_message"] = "Error de Privilegios"
@@ -123,6 +127,7 @@ def acceso_registro():  # TODO Esplicar en documentacion (context con dos variab
 def cerrar_login():
     session.pop('user_id', None)
     session.pop('role_id', None)
+    session.pop('is_admin', False)
     return redirect(url_for("login"))
 
 

@@ -24,12 +24,15 @@
 </head>
 
 <body class="general-body">
-    <header>
-        <a href="/" class="logo">Home</a>
+    <header class="header">
+        <a href="/" class="home">Home</a>
 
         <nav class="navbar">
             <a href="#">Perfil</a>
             <a href="#">Mis Productos</a>
+            {% if is_admin == True %}
+                <a href="/admin-panel">Panel Admin</a>
+            {% endif %}
             <a class="log-out" href="/cerrar-login">Cerrar Sesión</a>
         </nav>
     </header>
