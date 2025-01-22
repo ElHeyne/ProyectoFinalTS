@@ -37,8 +37,8 @@ class Users(db.Base):
         return check_password_hash(self.user_hash_password, password)
 
     @staticmethod
-    def verify_mail(self, mail):
-        mail_check = Users.query.filter_by(user_email=mail).first()
+    def verify_mail(mail):
+        mail_check = db.session.query(Users).filter_by(user_email=mail).first()
         return mail_check is not None
 
 class Roles(db.Base):
