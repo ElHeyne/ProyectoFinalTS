@@ -1,5 +1,5 @@
 import db
-from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
+from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, Float, DECIMAL
 
 
 class Users(db.Base):
@@ -8,7 +8,7 @@ class Users(db.Base):
     role_id = Column(Integer, ForeignKey("roles.role_id"), nullable=False)
     user_email = Column(String(255), nullable=False)
     user_password = Column(String(255), nullable=False)
-    user_name = Column(String(255), nullable=False, default="unidentified_user")
+    user_name = Column(String(255), nullable=False, server_default="unidentified_user")
 
     def __init__(self, role_id, user_email, user_password, user_name):
         self.role_id = role_id
@@ -17,11 +17,11 @@ class Users(db.Base):
         self.user_name = user_name
 
     def __repr__(self):
-        return "User {}: {} {} {} {}".format(self.user_id, self.user_name, self.user_email, self.user_password,
+        return "User {}:{},{},{},{}".format(self.user_id, self.user_name, self.user_email, self.user_password,
                                              self.role_id)
 
     def __str__(self):
-        return "User {}: {} {} {} {}".format(self.user_id, self.user_name, self.user_email, self.user_password,
+        return "User {}:{},{},{},{}".format(self.user_id, self.user_name, self.user_email, self.user_password,
                                              self.role_id)
 
 
@@ -35,22 +35,22 @@ class Roles(db.Base):
         self.role_name = role_name
 
     def __repr__(self):
-        return "Role {}: ID {}".format(self.role_name, self.role_id)
+        return "Role {}:{}".format(self.role_id, self.role_name)
 
     def __str__(self):
-        return "Role {}: ID {}".format(self.role_name, self.role_id)
+        return "Role {}:{}".format(self.role_id, self.role_name)
 
 
 class Suppliers(db.Base):
     __tablename__ = "suppliers"
     supplier_id = Column(Integer, primary_key=True)
-    supplier_name = Column(String(255), nullable=False, default="unidentified_supplier")
-    supplier_phone = Column(Integer, nullable=False, default=0000)
-    supplier_commercial_address = Column(String(255), nullable=False, default="unidentified_comercial_address")
-    supplier_country = Column(String(255), nullable=False, default="unidentified_country")
-    supplier_nif = Column(String(255), nullable=False, default="unidentified_nif")
-    supplier_discount = Column(Integer, nullable=False, default=0)
-    supplier_iva = Column(Integer, nullable=False, default=0)
+    supplier_name = Column(String(255), nullable=False, server_default="unidentified_supplier")
+    supplier_phone = Column(Integer, nullable=False, server_default="0000")
+    supplier_commercial_address = Column(String(255), nullable=False, server_default="unidentified_comercial_address")
+    supplier_country = Column(String(255), nullable=False, server_default="unidentified_country")
+    supplier_nif = Column(String(255), nullable=False, server_default="unidentified_nif")
+    supplier_discount = Column(Integer, nullable=False, server_default="0")
+    supplier_iva = Column(Integer, nullable=False, server_default="0")
 
     def __init__(self, supplier_name, supplier_phone, supplier_commercial_address, supplier_country, supplier_nif,
                  supplier_discount, supplier_iva):
@@ -63,12 +63,12 @@ class Suppliers(db.Base):
         self.supplier_iva = supplier_iva
 
     def __repr__(self):
-        return "Supplier {}: {} {} {} {} {} {} {}".format(self.supplier_name, self.supplier_id, self.supplier_phone,
+        return "Supplier {}:{},{},{},{},{},{},{}".format(self.supplier_id, self.supplier_name, self.supplier_phone,
                                                           self.supplier_commercial_address, self.supplier_country,
                                                           self.supplier_nif, self.supplier_discount, self.supplier_iva)
 
     def __str__(self):
-        return "Supplier {}: {} {} {} {} {} {} {}".format(self.supplier_name, self.supplier_id, self.supplier_phone,
+        return "Supplier {}:{},{},{},{},{},{},{}".format(self.supplier_id, self.supplier_name, self.supplier_phone,
                                                           self.supplier_commercial_address, self.supplier_country,
                                                           self.supplier_nif, self.supplier_discount, self.supplier_iva)
 
@@ -76,9 +76,9 @@ class Suppliers(db.Base):
 class Categories(db.Base):
     __tablename__ = "categories"
     category_id = Column(Integer, primary_key=True)
-    category_name = Column(String(255), nullable=False, default="unidentified_category")
-    category_referencial = Column(String(255), nullable=False, default="unidentified_referencial")
-    category_zone = Column(String(255), nullable=True, defualt="unidentified_zone")
+    category_name = Column(String(255), nullable=False, server_default="unidentified_category")
+    category_referencial = Column(String(255), nullable=False, server_default="unidentified_referencial")
+    category_zone = Column(String(255), nullable=True, server_default="unidentified_zone")
 
     def __init__(self, category_name, category_referencial, category_zone):
         self.category_name = category_name
@@ -86,11 +86,11 @@ class Categories(db.Base):
         self.category_zone = category_zone
 
     def __repr__(self):
-        return "Category {}: {} {} {}".format(self.category_name, self.category_id, self.category_referencial,
+        return "Category {}:{},{},{}".format(self.category_id, self.category_name, self.category_referencial,
                                               self.category_zone)
 
     def __str__(self):
-        return "Category {}: {} {} {}".format(self.category_name, self.category_id, self.category_referencial,
+        return "Category {}:{},{},{}".format(self.category_id, self.category_name, self.category_referencial,
                                               self.category_zone)
 
 
@@ -98,4 +98,38 @@ class Products(db.Base):
     __tablename__ = "products"
     product_id = Column(Integer, primary_key=True)
     supplier_id = Column(Integer, ForeignKey("suppliers.supplier_id"), nullable=False)
-    category_id = Column(Integer, ForeignKey("categories.category_id"))
+    category_id = Column(Integer, ForeignKey("categories.category_id"), nullable=False)
+    product_name = Column(String(255), nullable=False, server_default="unidentified_product")
+    product_price = Column(DECIMAL(255, 2), nullable=False, server_default="0.00")
+    product_referencial = Column(String(255), nullable=False, server_default="unidentified_referencial")
+    product_limit_stock = Column(Integer, nullable=False, server_default="1")
+    product_active_stock = Column(Integer, nullable=False, server_default="0")
+    product_warehouse = Column(String(255), nullable=False, server_default="unidentified_warehouse") # Es una ubicacion como calle o codigo.
+    product_zone = Column(String(255), nullable=False, server_default="unidentified_zone")
+
+    def __init__(self, supplier_id, category_id, product_name, product_price, product_referencial, product_limit_stock,
+                 product_active_stock, product_warehouse, product_zone):
+        self.supplier_id = supplier_id
+        self.category_id = category_id
+        self.product_name = product_name
+        self.product_price = product_price
+        self.product_referencial = product_referencial
+        self.product_limit_stock = product_limit_stock
+        self.product_active_stock = product_active_stock
+        self.product_warehouse = product_warehouse
+        self.product_zone = product_zone
+
+    def __repr__(self):
+        return "Product {}:{},{},{},{},{},{},{},{},{}".format(self.product_id, self.supplier_id, self.category_id,
+                                                              self.product_name, self.product_price,
+                                                              self.product_referencial, self.product_limit_stock,
+                                                              self.product_active_stock, self.product_warehouse,
+                                                              self.product_zon)
+
+    def __str__(self):
+        return "Product {}:{},{},{},{},{},{},{},{},{}".format(self.product_id, self.supplier_id, self.category_id,
+                                                              self.product_name, self.product_price,
+                                                              self.product_referencial, self.product_limit_stock,
+                                                              self.product_active_stock, self.product_warehouse,
+                                                              self.product_zon)
+
