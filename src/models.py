@@ -1,5 +1,6 @@
 import db
 from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, Float, DECIMAL
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 class Users(db.Base):
@@ -7,23 +8,38 @@ class Users(db.Base):
     user_id = Column(Integer, primary_key=True)
     role_id = Column(Integer, ForeignKey("roles.role_id"), nullable=False)
     user_email = Column(String(255), nullable=False)
-    user_password = Column(String(255), nullable=False)
+    # user_password = Column(String(255), nullable=False)
+    user_hash_password = Column(String(255), nullable=False)
     user_name = Column(String(255), nullable=False, server_default="unidentified_user")
 
-    def __init__(self, role_id, user_email, user_password, user_name):
+    def __init__(self, role_id, user_email, user_name):
         self.role_id = role_id
         self.user_email = user_email
-        self.user_password = user_password
         self.user_name = user_name
 
     def __repr__(self):
-        return "User {}:{},{},{},{}".format(self.user_id, self.user_name, self.user_email, self.user_password,
-                                             self.role_id)
+        return "User {}:{},{},{},{}".format(self.user_id, self.user_name, self.user_email, self.user_hash_password,
+                                            self.role_id)
 
     def __str__(self):
-        return "User {}:{},{},{},{}".format(self.user_id, self.user_name, self.user_email, self.user_password,
-                                             self.role_id)
+        return "User {}:{},{},{},{}".format(self.user_id, self.user_name, self.user_email, self.user_hash_password,
+                                            self.role_id)
 
+    @property
+    def user_password(self):
+        raise AttributeError('Password is not a readable Attribute!')
+
+    @user_password.setter
+    def user_password(self, password):
+        self.user_hash_password = generate_password_hash(password)
+
+    def verify_password(self, password):
+        return check_password_hash(self.user_hash_password, password)
+
+    @staticmethod
+    def verify_mail(self, mail):
+        mail_check = Users.query.filter_by(user_email=mail).first()
+        return mail_check is not None
 
 class Roles(db.Base):
     __tablename__ = "roles"

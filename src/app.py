@@ -16,6 +16,17 @@ import platform
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY") or str(hash(platform.node()))
 
+@app.before_request
+def validate_session():
+    if 'user_id' in session:
+        user = db.session.query(Users).filter_by(user_id=session['user_id']).first()
+        if not user:
+            session.clear()
+            flash("Error - Sesión Expirada", "warning")
+            return redirect(url_for("login"))
+        elif user.role_id != session.get('role_id'):
+            session['role_id'] = user.role_id
+            session['is_admin'] = user.role_id == 0
 
 def login_required(original_function):
     @wraps(original_function)
@@ -34,8 +45,11 @@ def admin_login_required(original_function):
         if 'user_id' not in session:
             print("Not Logged In")
             redirect_url = url_for('login')
-        elif session['role_id'] != 0:
-            print("Insuficient Roles")
+
+        user = Users.query.filter_by(user_id=session['user_id']).first()
+
+        if not user or user.role_id != 0:
+            print("Insufficient Roles")
             redirect_url = url_for('home')
 
         if redirect_url:
@@ -77,7 +91,7 @@ def acceso_login():  # TODO Explicar en documentación
         _password = request.form['txtPassword']
         user = db.session.query(Users).filter_by(user_email=_correo).first()
 
-        if user and _password == user.user_password:  # Comprobación usuario activo y contraseña correcta
+        if user and user.verify_password(_password):  # Comprobación usuario activo y contraseña correcta
             session['user_id'] = user.user_id
             session['role_id'] = user.role_id
             session['login'] = True
@@ -104,20 +118,36 @@ def acceso_registro():  # TODO Esplicar en documentacion (context con dos variab
     if request.method == 'POST':
         user = Users(user_name=request.form['txtUserName'],
                      user_email=request.form['txtEmail'].lower(),
-                     user_password=request.form['txtPassword'],
                      role_id=1)
+
+        # Crear hash contraseña
+        try:
+            user.user_password=(request.form['txtPassword'])
+        except Exception as e:
+            print(e)
+            context["error_message"] = "Error Proceso Hashing"
+
+        # Revisar correo unico
+        try:
+            mail=request.form['txtEmail'].lower()
+
+            if user.verify_mail(mail):
+                flash("Mail Existente", "warning")
+                return redirect(url_for("login"))
+        except Exception as e:
+            print(e)
+            context["error_message"] = "Error Validar Mail"
+
         print(user)
         db.session.add(user)
 
         try:
             db.session.commit()
-            flash("Usuario Creado")
+            flash("Usuario Creado", "success")
             return redirect(url_for("login"))
-        
-            # template = "login.html"
-            # context["success_message"] = "Usuario Creado"
 
-        except:
+        except Exception as e:
+            print(e)
             context["error_message"] = "Error Inseperado"
 
     return render_template(template, **context)

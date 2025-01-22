@@ -79,6 +79,10 @@
         color: rgb(122, 239, 68);
     }
 
+    .unregistered-form-message.warning{
+        color: rgb(236, 218, 52);
+    }
+
     .unregistered-form-message.hide{
         opacity: 0;
         visibility: hidden;

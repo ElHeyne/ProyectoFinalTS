@@ -43,7 +43,16 @@
                 {% endif %}
             </section>
             <section id="success-message" class="unregistered-form-message success">
-                {% with messages = get_flashed_messages() %}
+                {% with messages = get_flashed_messages(category_filter=["success"]) %}
+                    {% if messages %}
+                        {% for message in messages %}
+                          {{ message }}
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            </section>
+            <section id="warning-message" class="unregistered-form-message warning">
+                {% with messages = get_flashed_messages(category_filter=["warning"]) %}
                     {% if messages %}
                         {% for message in messages %}
                           {{ message }}
@@ -64,6 +73,7 @@
 
                 hideMessage('error-message');
                 hideMessage('success-message');
+                hideMessage('warning-message');
             </script>
 
             <section class="unregistered-form-submit">
