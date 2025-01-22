@@ -8,16 +8,25 @@ from functools import wraps
 from models import Users
 from werkzeug.security import generate_password_hash, check_password_hash
 import db
-import os
-import platform
+import time
+# import os
+# import platform
 
 # Definición / Rutas de Web
 
 app = Flask(__name__)
-app.secret_key = os.environ.get("SECRET_KEY") or str(hash(platform.node()))
+app.config['SESSION_TYPE'] = 'filesystem'
+app.config['SESSION_PERMANENT'] = False
+Session(app)
+# app.secret_key = os.environ.get("SECRET_KEY") or str(hash(platform.node())) # Sistema de session antiguo
 
 @app.before_request
 def validate_session():
+    if request.endpoint == 'static':
+        return
+    print("DEBUG - Validando Sesion")
+    time.sleep(0.3)
+    print("DEBUG - Sesion Validada")
     if 'user_id' in session:
         user = db.session.query(Users).filter_by(user_id=session['user_id']).first()
         if not user:
@@ -44,9 +53,9 @@ def admin_login_required(original_function):
         redirect_url = None
         if 'user_id' not in session:
             print("Not Logged In")
-            redirect_url = url_for('login')
+            return redirect(url_for('login'))
 
-        user = Users.query.filter_by(user_id=session['user_id']).first()
+        user = db.session.query(Users).filter_by(user_id=session['user_id']).first()
 
         if not user or user.role_id != 0:
             print("Insufficient Roles")
@@ -96,6 +105,8 @@ def acceso_login():  # TODO Explicar en documentación
             session['role_id'] = user.role_id
             session['login'] = True
 
+            print("DEBUG - LOGGED IN", session)
+
             if session['role_id'] == 0:
                 session['is_admin'] = True
                 return redirect(url_for("admin_panel"))
@@ -122,17 +133,17 @@ def acceso_registro():  # TODO Esplicar en documentacion (context con dos variab
 
         # Crear hash contraseña
         try:
-            user.user_password=(request.form['txtPassword'])
+            user.user_password = (request.form['txtPassword'])
         except Exception as e:
             print(e)
             context["error_message"] = "Error Proceso Hashing"
 
         # Revisar correo unico
         try:
-            mail=request.form['txtEmail'].lower()
+            mail = request.form['txtEmail'].lower()
 
             if user.verify_mail(mail):
-                flash("Mail Existente", "warning")
+                flash("Advertencia: E-Mail Existente", "warning")
                 return redirect(url_for("login"))
         except Exception as e:
             print(e)
@@ -158,6 +169,9 @@ def cerrar_login():
     session.pop('user_id', None)
     session.pop('role_id', None)
     session.pop('is_admin', False)
+
+    print("DEBUG - SESSIONS DELETED")
+
     return redirect(url_for("login"))
 
 
