@@ -1,6 +1,6 @@
 /*CSS dedicado a wrapers*/
 
-.individual-form-wraper{
+.unregistered-form-wraper{
     width: 50dvh;
     /*background-color: #292929;*/
     background: transparent;
@@ -22,7 +22,7 @@
         margin: 15px 0 0 0;
     }
 
-    .individual-form-input{
+    .unregistered-form-input{
         position: relative;
         width: 100%;
         height: 40px;
@@ -65,26 +65,26 @@
         }
     }        
 
-    .individual-form-message{
+    .unregistered-form-message{
         font-size: 14px;
         font-weight: 500;
         padding: 10px 0 0 20px;
         opacity: 1;
     }
-    .individual-form-message.error{
+    .unregistered-form-message.error{
         color: rgb(239 68 68);
     }
 
-    .individual-form-message.success{
+    .unregistered-form-message.success{
         color: rgb(122, 239, 68);
     }
 
-    .individual-form-message.hide{
+    .unregistered-form-message.hide{
         opacity: 0;
         visibility: hidden;
     }
 
-    .individual-form-submit{
+    .unregistered-form-submit{
         align-self: center;
         width: 80%;
         height: 50px;
@@ -113,7 +113,7 @@
         }
     }
 
-    .register-input{
+    .unregistered-form-change{
         text-align: center;
         margin: 0 0 15px 0;
 

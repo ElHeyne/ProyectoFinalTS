@@ -25,28 +25,28 @@
 
 
 </head>
-<body class="user-form-body">
-    <section class="individual-form-wraper">
+<body class="unregistered-body">
+    <section class="unregistered-form-wraper">
         <form action="register-access" method="POST">
             <h1>Registro</h1>
-            <section class="individual-form-input">
+            <section class="unregistered-form-input">
                 <input type="text" id="user_name_input" placeholder="Nombre de Usuario" name="txtUserName" required>
                 <i class='bx bxs-user'></i>
             </section>
-            <section class="individual-form-input">
+            <section class="unregistered-form-input">
                 <input type="email" id="email_input" placeholder="Correo Electrónico" name="txtEmail" required>
                 <i class='bx bxs-user'></i>
             </section>
-            <section class="individual-form-input">
+            <section class="unregistered-form-input">
                 <input type="password" id="password_input" placeholder="Contraseña" name="txtPassword" required>
                 <i class='bx bxs-lock-alt' ></i>
             </section>
-            <section id="error-message" class="individual-form-message error">
+            <section id="error-message" class="unregistered-form-message error">
                 {% if error_message %}
                 {{ error_message }}
                 {% endif %}
             </section>
-            <section id="success-message" class="individual-form-message success">
+            <section id="success-message" class="unregistered-form-message success">
                 {% if success_message %}
                 {{ success_message }}
                 {% endif %}
@@ -66,12 +66,12 @@
                 hideMessage('success-message');
             </script>
 
-            <section class="individual-form-submit">
+            <section class="unregistered-form-submit">
                 <button type="submit">Regístrate</button>
             </section>
         </form>
 
-        <section class="register-input">
+        <section class="unregistered-form-change">
             <p>¿Tienes Cuenta?
             <a href="/login">Inicia Sesión</a></p>
         </section>
