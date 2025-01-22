@@ -1,0 +1,19 @@
+/*CSS dedicado a navbars*/
+
+.navbar a{
+    position: relative;
+    font-size: 18px;
+    color: #fff;
+    font-weight: 500;
+    text-decoration: none;
+    margin-left: 30px;
+    transition: .3s;
+}
+
+.navbar a:hover{
+    color: #fd7530;
+}
+
+.navbar .log-out:hover{
+    color: rgb(239 68 68);
+}

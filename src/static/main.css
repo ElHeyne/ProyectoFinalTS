@@ -29,7 +29,31 @@ body{
         animation: breathing 12s ease-in-out infinite;
     }
 
-    
+header{
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px 100px;
+    margin: 0 0 20px 0;
+    background: #181c1f;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+}
+
+.logo{
+    font-size: 32px;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 700;
+    transition: .3s;
+}
+
+.logo:hover{
+    color: #fd7530;
+}
+
 /* Animacion Body */
 @keyframes breathing {
     0%, 2%, 98%, 100% {

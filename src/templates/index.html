@@ -9,7 +9,8 @@
 
     <!--stylesheets-->
     <link rel="stylesheet" href="../static/main.css">
-    <link rel="stylesheet" href="../static/wrapers.css">
+    <link rel="stylesheet" href="../static/containers.css">
+    <link rel="stylesheet" href="../static/navbars.css">
 
     <!--External Links-->
     
@@ -24,9 +25,13 @@
 
 <body class="general-body">
     <header>
-        <a href="/cerrar-login"> <!--TODO Aplicar estilo de alerta metiendo dentro de un contenedor especifico (contenedor section class alerta)-->
-            <button type="button">Cerrar Sesión</button>
-        </a>
+        <a href="/" class="logo">Home</a>
+
+        <nav class="navbar">
+            <a href="#">Perfil</a>
+            <a href="#">Mis Productos</a>
+            <a class="log-out" href="/cerrar-login">Cerrar Sesión</a>
+        </nav>
     </header>
     <section>
         <h1>Index</h1> <!-- TODO Saludar al usuario creando un nuevo valor llamado user_name y mandarlo en el form, guardandolo en sesion-->

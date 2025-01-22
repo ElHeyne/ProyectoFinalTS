@@ -126,7 +126,7 @@
         }
 
         a:hover{
-            color: rgb(239 68 68);
+            color: #fd7530;
             transition: all .2s ease-in-out;
         }
     }
