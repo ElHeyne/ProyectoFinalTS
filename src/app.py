@@ -66,13 +66,7 @@ def admin_login_required(original_function):
         return original_function(*args, **kwargs)
     return decorated_function
 
-
-@app.route("/")
-@login_required
-def home():
-    print(session['is_admin'], session['role_id'])
-    return render_template("index.html", is_admin=session["is_admin"])
-
+# RUTAS SIN LOG IN
 
 @app.route("/login")
 def login():
@@ -83,12 +77,55 @@ def login():
 def register():
     return render_template("register.html")
 
+# RUTAS USUARIO
+@app.route("/")
+@login_required
+def home():
+    return render_template("index.html", is_admin=session["is_admin"])
+
+@app.route("/profile")
+@login_required
+def profile():
+    return render_template("index_profile.html", is_admin=session["is_admin"])
+
+@app.route("/products")
+@login_required
+def products():
+    return render_template("index_products.html", is_admin=session["is_admin"])
+
+@app.route("/statistics")
+@login_required
+def statistics():
+    return render_template("index_statistics.html", is_admin=session["is_admin"])
+
+# RUTAS ADMINISTRADOR
 
 @app.route("/admin-panel")
 @admin_login_required
 def admin_panel():
-    return render_template("admin.html")
+    return render_template("admin.html", is_admin=session["is_admin"])
 
+@app.route("/admin-panel/users")
+@admin_login_required
+def admin_panel_users():
+    return render_template("admin_users.html", is_admin=session["is_admin"])
+
+@app.route("/admin-panel/suppliers")
+@admin_login_required
+def admin_panel_suppliers():
+    return render_template("admin_suppliers.html", is_admin=session["is_admin"])
+
+@app.route("/admin-panel/products")
+@admin_login_required
+def admin_panel_products():
+    return render_template("admin_products.html", is_admin=session["is_admin"])
+
+@app.route("/admin-panel/categories")
+@admin_login_required
+def admin_panel_categories():
+    return render_template("admin_categories.html", is_admin=session["is_admin"])
+
+# RUTAS DE PROCESO
 
 @app.route("/login-access", methods=["POST", "GET"])
 def acceso_login():  # TODO Explicar en documentación
