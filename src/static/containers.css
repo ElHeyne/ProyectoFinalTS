@@ -1,0 +1,49 @@
+/*CSS dedicado a contenedores*/
+
+.container-type-1{
+    margin: 20px 40px;
+}
+
+.flex-container{
+    display: flex;
+
+    .flex-column{
+        flex-direction: column;
+    }
+
+    .flex-jst-center{
+        justify-content: center;
+    }
+
+    .flex-jst-end{
+        justify-content: end;
+    }
+
+    .flex-jst-se{
+        justify-content: space-evenly;
+    }
+
+    .flex-jst-sb{
+        justify-content: space-between;
+    }
+
+    .flex-jst-sa{
+        justify-content: space-around;
+    }
+
+    .flex-alg-center{
+        align-items: center;
+    }
+
+    .flex-alg-se{
+        align-items: space-evenly;
+    }
+
+    .flex-alg-sb{
+        align-items: space-between;
+    }
+
+    .flex-alg-sa{
+        align-items: space-around;
+    }
+}

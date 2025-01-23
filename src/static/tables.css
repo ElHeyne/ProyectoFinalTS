@@ -1,0 +1,62 @@
+.table-type-1 {
+    margin: 10px 20px;
+    border-collapse: collapse;
+    min-width: 350px;
+    
+    /* Titulos de contenido */
+    thead .thead-title {
+        background-color: #fd7530;
+        text-align: left;
+        color: #0e1114;
+        font-weight: 700;
+    }
+
+    /* Titulos de optiones */
+    thead .thead-option {
+        background-color: #501b00;
+        text-align: left;
+        color: #fd935d;
+        font-weight: 700;
+    }
+
+    /* Fila de contenido */
+    tbody tr {
+        background-color: #181c1f;
+        border-bottom: 2px solid #0e1114;
+    }
+
+    tbody tr:nth-of-type(even) {
+        background-color: #20262c;
+    }
+
+    tbody tr:hover td {
+        color: #fd935d;
+        background-color: #0e1114;
+    }
+
+    /* Fila de opciones */
+    tbody .tbody-option {
+        background-color: #101416;
+        border-bottom: 2px solid #0e1114;
+        transition: 0.2s;
+    }
+
+    tbody tr:nth-of-type(even) .tbody-option {
+        background-color: #191f24;
+    }
+
+    tbody tr:hover .tbody-option {
+        color: #fd935d;
+        background-color: #0e1114;
+    }
+    
+    /* Tamaño de celdas */
+    tbody td {
+        padding: 8px 15px;
+        transition: 0.2s; /*afecta al hover*/
+    }
+
+    thead th {
+        padding: 12px 15px;
+    }
+}
