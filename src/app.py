@@ -108,7 +108,9 @@ def admin_panel():
 @app.route("/admin-panel/users")
 @admin_login_required
 def admin_panel_users():
-    return render_template("admin_users.html", is_admin=session["is_admin"])
+    registered_users = db.session.query(Users).order_by(Users.user_id)
+    return render_template("admin_users.html", is_admin=session["is_admin"],
+                           registered_users=registered_users)
 
 @app.route("/admin-panel/suppliers")
 @admin_login_required

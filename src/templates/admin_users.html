@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="../static/main.css">
     <link rel="stylesheet" href="../static/containers.css">
     <link rel="stylesheet" href="../static/navbars.css">
+    <link rel="stylesheet" href="../static/tables.css">
+    <link rel="stylesheet" href="../static/fonts.css">
 
     <!--External Links-->
 
@@ -42,6 +44,7 @@
             <a class="log-out" href="/cerrar-login">Cerrar Sesión</a>
         </nav>
     </header>
+
     <header class="admin-header">
         <nav class="admin-navbar">
             <a href="/admin-panel/users">Usuarios</a>
@@ -50,8 +53,54 @@
             <a href="/admin-panel/categories">Categorías</a>
         </nav>
     </header>
-    <section>
+
+    <section class="container-type-1">
         <h1>Administración Usuarios</h1> <!-- TODO Saludar al usuario creando un nuevo valor llamado user_name y mandarlo en el form, guardandolo en sesion-->
+    </section>
+
+    <section class="container-type-1">
+        <h2>Lista de Usuarios</h2>
+        <table class="table-type-1 table-striped">
+            <thead>
+                <tr>
+                    <th class="thead-title">ID</th>
+                    <th class="thead-title">Usuario</th>
+                    <th class="thead-title">E-Mail</th>
+                    <th class="thead-title">Role</th>
+
+                    <th class="thead-option">Options</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if registered_users %}
+                {% for user in registered_users %}
+                <tr>
+                    <td>{{user.user_id}}</td>
+                    <td>{{user.user_name}}</td>
+                    <td>{{user.user_email}}</td>
+                    <td>
+                        {% if user.role_id == 0 %}
+                            Admin
+                        {% else %}
+                            User
+                        {% endif %}
+                    </td>
+
+                    <td class="tbody-option">...</td>
+                </tr>
+                {% endfor %}
+                {% endif %}
+                <tr>
+                    <td colspan="5">
+                        <form action="#">
+                            <input type="email" id="email_input" placeholder="Correo Electrónico" name="txtEmail" required>
+                            <input type="password" id="password_input" placeholder="Contraseña" name="txtPassword" required>
+                            <input type="submit">
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </section>
 </body>
 </html>
