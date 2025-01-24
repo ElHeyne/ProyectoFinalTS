@@ -42,7 +42,7 @@
     }
 
     tbody tr:nth-of-type(even) .tbody-option {
-        background-color: #191f24;
+        background-color: #151a1f;
     }
 
     tbody tr:hover .tbody-option {
