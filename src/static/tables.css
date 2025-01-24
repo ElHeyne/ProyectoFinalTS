@@ -1,7 +1,7 @@
 .table-type-1 {
     margin: 10px 20px;
     border-collapse: collapse;
-    min-width: 350px;
+    min-width: calc(100% - 40px);
     
     /* Titulos de contenido */
     thead .thead-title {
