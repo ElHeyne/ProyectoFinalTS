@@ -1,5 +1,5 @@
 import db
-from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, Float, DECIMAL
+from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, Float, DECIMAL, DateTime, text
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
@@ -8,9 +8,9 @@ class Users(db.Base):
     user_id = Column(Integer, primary_key=True)
     role_id = Column(Integer, ForeignKey("roles.role_id"), nullable=False)
     user_email = Column(String(255), nullable=False)
-    # user_password = Column(String(255), nullable=False)
     user_hash_password = Column(String(255), nullable=False)
     user_name = Column(String(255), nullable=False, server_default="unidentified_user")
+    user_register_date = Column(DateTime, nullable=False, server_default=text("CURRENT_TIMESTAMP"))
 
     def __init__(self, role_id, user_email, user_name):
         self.role_id = role_id
@@ -19,11 +19,11 @@ class Users(db.Base):
 
     def __repr__(self):
         return "User {}:{},{},{},{}".format(self.user_id, self.user_name, self.user_email, self.user_hash_password,
-                                            self.role_id)
+                                            self.role_id, self.user_register_date)
 
     def __str__(self):
         return "User {}:{},{},{},{}".format(self.user_id, self.user_name, self.user_email, self.user_hash_password,
-                                            self.role_id)
+                                            self.role_id, self.user_register_date)
 
     @property
     def user_password(self):

@@ -67,9 +67,10 @@
                         <th class="thead-title">ID</th>
                         <th class="thead-title">Usuario</th>
                         <th class="thead-title">E-Mail</th>
-                        <th class="thead-title">Role</th>
+                        <th class="thead-title">Rol</th>
+                        <th class="thead-title">Fecha de Registro</th>
 
-                        <th class="thead-option">Options</th>
+                        <th class="thead-option">Opciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -86,6 +87,7 @@
                                 User
                             {% endif %}
                         </td>
+                        <td>{{user.user_register_date}}</td>
 
                         <td class="tbody-option">...</td>
                     </tr>
