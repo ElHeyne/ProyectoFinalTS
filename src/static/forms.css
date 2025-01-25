@@ -1,0 +1,10 @@
+/*CSS dedicado a formularios*/
+
+.form-type-1 {
+    margin: 10px 20px;
+    min-width: calc(100% - 40px);
+}
+
+.table-form-type-1 {
+    
+}
