@@ -7,7 +7,7 @@
 }
 
     /* Titulos de contenido */
-    .table-type-1 thead .thead-title {
+    .table-type-1 thead tr .th-title {
         background-color: #fd7530;
         text-align: left;
         color: #0e1114;
@@ -15,7 +15,7 @@
     }
 
     /* Titulos de optiones */
-    .table-type-1 thead .thead-option {
+    .table-type-1 thead tr .th-option {
         background-color: #501b00;
         text-align: left;
         color: #fd935d;
@@ -38,20 +38,36 @@
     }
 
     /* Fila de opciones */
-    .table-type-1 tbody .tbody-option {
+    .table-type-1 tbody tr .td-option {
         background-color: #101416;
         border-bottom: 2px solid #0e1114;
         transition: 0.2s;
     }
 
-    .table-type-1.alternate tbody tr:nth-of-type(even) .tbody-option {
+    .table-type-1.alternate tbody tr:nth-of-type(even) .td-option {
         background-color: #151a1f;
     }
 
-    .table-type-1.table-type-1.hover tbody tr:hover .tbody-option {
+    .table-type-1.hover tbody tr:hover .td-option {
         color: #fd935d;
         background-color: #0e1114;
     }
+    
+    /* Fila de formulario */
+    .table-type-1 tbody tr .td-form {
+        background-color: #501b00;
+        border-bottom: 2px solid #0e1114;
+    }
+
+    .table-type-1.alternate tbody tr:nth-of-type(even) .td-form {
+        background-color: #501b00;
+    }
+
+    .table-type-1.hover tbody tr:hover .td-form {
+        color: #fd935d;
+        background-color: #501b00;
+    }
+    
 
     /* Tamaño de celdas */
     .table-type-1 tbody td {

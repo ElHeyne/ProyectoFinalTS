@@ -8,6 +8,7 @@
     <title>Panel de Administrador - Usuarios</title>
 
     <!--stylesheets-->
+    <link rel="stylesheet" href="../static/variables.css">
     <link rel="stylesheet" href="../static/main.css">
     <link rel="stylesheet" href="../static/containers.css">
     <link rel="stylesheet" href="../static/navbars.css">
@@ -64,13 +65,13 @@
             <table class="table-type-1 alternate hover">
                 <thead>
                     <tr>
-                        <th class="thead-title">ID</th>
-                        <th class="thead-title">Usuario</th>
-                        <th class="thead-title">E-Mail</th>
-                        <th class="thead-title">Rol</th>
-                        <th class="thead-title">Fecha de Registro</th>
+                        <th class="th-title">ID</th>
+                        <th class="th-title">Usuario</th>
+                        <th class="th-title">E-Mail</th>
+                        <th class="th-title">Rol</th>
+                        <th class="th-title">Fecha de Registro</th>
 
-                        <th class="thead-option">Opciones</th>
+                        <th class="th-option">Opciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -89,17 +90,17 @@
                         </td>
                         <td>{{user.user_register_date}}</td>
 
-                        <td class="tbody-option">...</td>
+                        <td class="td-option">...</td>
                     </tr>
                     {% endfor %}
                     {% endif %}
                     <tr>
-                        <td colspan="6">
+                        <td class="td-form" colspan="6">
                             <section class="flex-container flex-jst-sa">
                                 <form action="#" class="table-form-type-1">
-                                    <input type="text" id="name_input" placeholder="Nombre" name="txtEmail" required>
-                                    <input type="email" id="email_input" placeholder="Correo Electrónico" name="txtEmail" required>
-                                    <input type="password" id="password_input" placeholder="Contraseña" name="txtPassword" required>
+                                    <input type="text" id="name_input" placeholder="Nombre" name="txtEmail" required autocomplete="off">
+                                    <input type="email" id="email_input" placeholder="Correo Electrónico" name="txtEmail" required autocomplete="off">
+                                    <input type="password" id="password_input" placeholder="Contraseña" name="txtPassword" required autocomplete="off">
                                     <input type="submit" value="Confirmar">
                                 </form>
                             </section>
