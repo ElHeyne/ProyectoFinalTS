@@ -3,7 +3,7 @@
 .navbar a{
     position: relative;
     font-size: 18px;
-    color: #fff;
+    color: var(--t1-white);
     font-weight: 500;
     text-decoration: none;
     margin-left: 30px;
@@ -11,17 +11,17 @@
 }
 
 .navbar a:hover{
-    color: #fd7530;
+    color: var(--main-orange);
 }
 
 .navbar .log-out:hover{
-    color: rgb(239 68 68);
+    color: var(--highlight-red);
 }
 
 .admin-navbar a{
     position: relative;
     font-size: 18px;
-    color: #fff;
+    color: var(--t1-white);
     font-weight: 500;
     text-decoration: none;
     margin-right: 30px;
@@ -29,29 +29,29 @@
 }
 
 .admin-navbar a:hover{
-    color: #fd7530;
+    color: var(--main-orange);
 }
 
 .home{
     font-size: 32px;
-    color: #fff;
+    color: var(--t1-white);
     text-decoration: none;
     font-weight: 700;
     transition: .3s;
 }
 
 .home:hover{
-    color: #fd7530;
+    color: var(--main-orange);
 }
 
 .subrute{
     font-size: 20px;
-    color: #fff;
+    color: var(--t1-white);
     text-decoration: none;
     font-weight: 700;
     transition: .3s;
 }
 
 .subrute:hover{
-    color: #fd7530;
+    color: var(--main-orange);
 }

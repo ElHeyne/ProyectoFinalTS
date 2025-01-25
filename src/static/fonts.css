@@ -2,7 +2,7 @@
 
 *{
     font-family: "Lexend", Arial, Helvetica, sans-serif;
-    color: #fff;
+    color: var(--t1-white);
     font-size: 14px;
 }
 

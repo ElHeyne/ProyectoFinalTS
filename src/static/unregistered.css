@@ -1,12 +1,12 @@
-/*CSS dedicado a wrapers*/
+/*CSS dedicado a formularios de usuarios no registrados (login, register)*/
 
 .unregistered-form-wraper{
     width: 50dvh;
     /*background-color: #292929;*/
     background: transparent;
-    border: 3px solid rgba(255, 255, 255, 0.4);
+    border: 3px solid var(--t04-gray);
     backdrop-filter: blur(1px);
-    box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.4);
+    box-shadow: 0px 0px 10px var(--t04-gray);
     border-radius: 1rem;
     padding: 30px 40px;
 
@@ -34,19 +34,19 @@
             background: transparent;
             border: none;
             outline: none;
-            border: 2px solid rgba(255,255,255,.2);
+            border: 2px solid var(--t02-gray);
             border-radius: 0.62rem;
             padding: 20px 45px 20px 20px;
             transition: all .3s ease-in-out;
         }
 
         input:hover{
-            border: 2px solid rgba(255,255,255,1);
+            border: 2px solid var(--t1-white);
             transition: all .3s ease-in-out;
         }
 
         ::placeholder{
-            color: #b3b3b3;
+            color: var(--light-gray);
         }
 
         label{
@@ -72,15 +72,15 @@
         opacity: 1;
     }
     .unregistered-form-message.error{
-        color: rgb(239 68 68);
+        color: var(--error-red);
     }
 
     .unregistered-form-message.success{
-        color: rgb(122, 239, 68);
+        color: var(--success-green);
     }
 
     .unregistered-form-message.warning{
-        color: rgb(236, 218, 52);
+        color: var(--warning-yellow);
     }
 
     .unregistered-form-message.hide{
@@ -96,23 +96,23 @@
 
         button{
             font-size: 16px;
-            color: #0e1114;
+            color: var(--background-gray);
             text-align: center;
             width: 100%;
             height: 100%;
-            background: white;
+            background: var(--t1-white);
             border: none;
             outline: none;
-            border: 2px solid rgba(255,255,255,1);
+            border: 2px solid var(--t1-white);
             border-radius: 0.62rem;
             transition: all .3s ease-in-out;
         }
 
         :hover{
             background: transparent;
-            color: #fff;
-            border: 2px solid rgba(255,255,255,.2);
-            background: rgba(255,255,255,.4);
+            color: var(--t1-white);
+            border: 2px solid var(--t02-gray);
+            background: var(--t04-gray);
             transition: all .2s ease-in-out;
         }
     }
@@ -124,13 +124,13 @@
         a{
             text-decoration: none;
             font-weight: bold;
-            color: #fff;
+            color: var(--t1-white);
             transition: all .2s ease-in-out;
 
         }
 
         a:hover{
-            color: #fd7530;
+            color: var(--main-orange);
             transition: all .2s ease-in-out;
         }
     }

@@ -3,7 +3,7 @@
     padding: 0;
     box-sizing: border-box;
     font-family: "Lexend", Arial, Helvetica, sans-serif;
-    color: #fff;
+    color: var(--t1-white);
 }
 
 body{
@@ -13,7 +13,7 @@ body{
 
     .general-body{
         background-size: 30px 30px;
-        background-image: radial-gradient(circle, #181c1f 1px, rgba(0, 0, 0, 0) 1px);
+        background-image: radial-gradient(circle, var(--background-details) 1px, var(--background-gray) 1px);
     }
 
     .unregistered-body {
@@ -22,8 +22,8 @@ body{
         align-items: center;
         
         background-image: 
-            linear-gradient(0deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            linear-gradient(0deg, var(--unregistered-background-details) 1px, transparent 1px),
+            linear-gradient(90deg, var(--unregistered-background-details) 1px, transparent 1px);
         background-repeat: repeat;
         background-position: center;
         animation: breathing 12s ease-in-out infinite;
@@ -38,7 +38,7 @@ header{
 }
 
 .header{
-    background: #181c1f;
+    background: var(--main-gray);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -46,7 +46,7 @@ header{
 }
 
 .admin-header{
-    background: #292f33;
+    background: var(--main-gray-c);
     display: flex;
     justify-content: space-between;
     align-items: center;

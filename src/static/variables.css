@@ -1,3 +1,34 @@
 :root {
+    /* Backgrounds */
     --background-gray: #0e1114;
+    --background-details: #181c1f;
+    --unregistered-background-details: rgba(255, 255, 255, 0.05);
+
+    /* Unregistered Colors */
+    --t04-gray: rgba(255, 255, 255, 0.4);
+    --t02-gray: rgba(255, 255, 255, 0.2);
+    --t1-white: rgba(255, 255, 255, 1);
+
+    --error-red: rgb(239 68 68);
+    --success-green: rgb(122, 239, 68);
+    --warning-yellow: rgb(236, 218, 52);
+
+    /* Main Colors */
+    --light-gray: #b3b3b3;
+
+    --main-gray: #181c1f;
+    --main-gray-c: #292f33;
+
+    --bgray-1: #181c1f;
+    --bgray-1-c: #101416;
+    --bgray-2: #20262c;
+    --bgray-2-c: #151a1f;
+    --bgray-3: #0e1114;
+    --bgray-4: #3a454d;
+
+    --main-orange: #fd7530;
+    --pale-orange: #fd935d;
+    --dark-orange: #501b00;
+
+    --highlight-red: rgb(239 68 68);
 }

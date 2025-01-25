@@ -8,66 +8,57 @@
 
     /* Titulos de contenido */
     .table-type-1 thead tr .th-title {
-        background-color: #fd7530;
+        background-color: var(--main-orange);
         text-align: left;
-        color: #0e1114;
+        color: var(--bgray-3);
         font-weight: 700;
     }
 
     /* Titulos de optiones */
     .table-type-1 thead tr .th-option {
-        background-color: #501b00;
+        background-color: var(--dark-orange);
         text-align: left;
-        color: #fd935d;
+        color: var(--pale-orange);
         font-weight: 700;
     }
 
     /* Fila de contenido */
     .table-type-1 tbody tr {
-        background-color: #181c1f;
-        border-bottom: 2px solid #0e1114;
+        background-color: var(--bgray-1);
+        border-bottom: 2px solid var(--bgray-3);
     }
 
     .table-type-1.alternate tbody tr:nth-of-type(even) {
-        background-color: #20262c;
+        background-color: var(--bgray-2);
     }
 
     .table-type-1.hover tbody tr:hover td {
-        color: #fd935d;
-        background-color: #0e1114;
+        color: var(--pale-orange);
+        background-color: var(--bgray-3);
     }
 
     /* Fila de opciones */
     .table-type-1 tbody tr .td-option {
-        background-color: #101416;
-        border-bottom: 2px solid #0e1114;
+        background-color: var(--bgray-1-c);
+        border-bottom: 2px solid var(--bgray-3);
         transition: 0.2s;
     }
 
     .table-type-1.alternate tbody tr:nth-of-type(even) .td-option {
-        background-color: #151a1f;
+        background-color: var(--bgray-2-c);
     }
 
     .table-type-1.hover tbody tr:hover .td-option {
-        color: #fd935d;
-        background-color: #0e1114;
+        color: var(--pale-orange);
+        background-color: var(--bgray-3);
     }
     
     /* Fila de formulario */
     .table-type-1 tbody tr .td-form {
-        background-color: #501b00;
-        border-bottom: 2px solid #0e1114;
+        background-color: var(--bgray-4) !important;
+        border-bottom: 2px solid var(--bgray-3) !important;
+        color: inherit !important;
     }
-
-    .table-type-1.alternate tbody tr:nth-of-type(even) .td-form {
-        background-color: #501b00;
-    }
-
-    .table-type-1.hover tbody tr:hover .td-form {
-        color: #fd935d;
-        background-color: #501b00;
-    }
-    
 
     /* Tamaño de celdas */
     .table-type-1 tbody td {
