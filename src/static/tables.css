@@ -4,6 +4,7 @@
     margin: 10px 20px;
     border-collapse: collapse;
     min-width: 670px;
+    position: relative;
 }
 
     /* Titulos de contenido */
@@ -69,3 +70,8 @@
     .table-type-1 thead th {
         padding: 12px 15px;
     }
+
+.table-sticky-header th{
+    position: sticky;
+    top: 0;
+}

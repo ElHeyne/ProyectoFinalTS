@@ -62,41 +62,45 @@
 
     <section class="container-type-1 flex-container flex-jst-sb">
         <article class="container-type-1 no-margin full-width">
-            <h2>Lista de Usuarios</h2>
-            <table class="table-type-1 alternate hover">
-                <thead>
-                    <tr>
-                        <th class="th-title">ID</th>
-                        <th class="th-title">Usuario</th>
-                        <th class="th-title">E-Mail</th>
-                        <th class="th-title">Rol</th>
-                        <th class="th-title">Fecha de Registro</th>
+            <section class="container-type-1 flex-container flex-column no-margin">
+                <h2>Lista de Usuarios</h2>
+                <section class="overflow">
+                    <table class="table-type-1 table-sticky-header alternate hover">
+                        <thead>
+                            <tr>
+                                <th class="th-title">ID</th>
+                                <th class="th-title">Usuario</th>
+                                <th class="th-title">E-Mail</th>
+                                <th class="th-title">Rol</th>
+                                <th class="th-title">Fecha de Registro</th>
 
-                        <th class="th-option">Opciones</th>
-                    </tr>
-                </thead>
-                <tbody">
-                    {% if registered_users %}
-                    {% for user in registered_users %}
-                    <tr>
-                        <td>{{user.user_id}}</td>
-                        <td>{{user.user_name}}</td>
-                        <td>{{user.user_email}}</td>
-                        <td>
-                            {% if user.role_id == 0 %}
-                                Admin
-                            {% else %}
-                                User
+                                <th class="th-option">Opciones</th>
+                            </tr>
+                        </thead>
+                        <tbody">
+                            {% if registered_users %}
+                            {% for user in registered_users %}
+                            <tr>
+                                <td>{{user.user_id}}</td>
+                                <td>{{user.user_name}}</td>
+                                <td>{{user.user_email}}</td>
+                                <td>
+                                    {% if user.role_id == 0 %}
+                                        Admin
+                                    {% else %}
+                                        User
+                                    {% endif %}
+                                </td>
+                                <td>{{user.user_register_date}}</td>
+
+                                <td class="td-option">...</td>
+                            </tr>
+                            {% endfor %}
                             {% endif %}
-                        </td>
-                        <td>{{user.user_register_date}}</td>
-
-                        <td class="td-option">...</td>
-                    </tr>
-                    {% endfor %}
-                    {% endif %}
-                </tbody>
-            </table>
+                        </tbody>
+                    </table>
+                </section>
+            </section>
         </article>
         <article class="container-type-1 no-margin full-width">
             <h2>Registros más Recientes</h2>
