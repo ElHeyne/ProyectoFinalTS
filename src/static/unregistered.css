@@ -65,6 +65,14 @@
         }
     }        
 
+    .unregistered-form-password-viewer i{
+        transition: 0.3s;
+    }
+
+    .unregistered-form-password-viewer:hover i{
+        color: var(--main-orange);
+    }
+
     .unregistered-form-message{
         font-size: 14px;
         font-weight: 500;

@@ -36,11 +36,11 @@
             </section>
             <section class="unregistered-form-input">
                 <input type="email" id="email_input" placeholder="Correo Electrónico" name="txtEmail" required>
-                <i class='bx bxs-user'></i>
+                <i class='bx bx-envelope'></i>
             </section>
             <section class="unregistered-form-input">
                 <input type="password" id="password_input" placeholder="Contraseña" name="txtPassword" required>
-                <i class='bx bxs-lock-alt' ></i>
+                <a id="view_password" class="unregistered-form-password-viewer"><i id="view_password_icon" class='bx bxs-lock-alt'></i></a>
             </section>
             <section id="error-message" class="unregistered-form-message error">
                 {% if error_message %}
@@ -52,21 +52,6 @@
                 {{ success_message }}
                 {% endif %}
             </section>
-
-            <script>
-                function hideMessage(id) {
-                    const element = document.getElementById(id);
-                    if (element && element.innerText.trim() !== "") {
-                        setTimeout(() => {
-                            element.classList.add('hide');
-                        }, 3000);
-                    }
-                }
-
-                hideMessage('error-message');
-                hideMessage('success-message');
-            </script>
-
             <section class="unregistered-form-submit">
                 <button type="submit">Regístrate</button>
             </section>
@@ -77,5 +62,35 @@
             <a href="/login">Inicia Sesión</a></p>
         </section>
     </section>
+
+    <script>
+        function hideMessage(id) {
+            const element = document.getElementById(id);
+            if (element && element.innerText.trim() !== "") {
+                setTimeout(() => {
+                    element.classList.add('hide');
+                }, 3000);
+            }
+        }
+
+        hideMessage('error-message');
+        hideMessage('success-message');
+    </script>
+
+    <script>
+        let view_password = document.getElementById("view_password");
+        let view_password_icon = document.getElementById("view_password_icon");
+        let password_input = document.getElementById("password_input");
+
+        view_password.onclick = function(){
+            if (password_input.type == "password"){
+                password_input.type = "text";
+                view_password_icon.className = "bx bxs-lock-open-alt"
+            } else {
+                password_input.type = "password";
+                view_password_icon.className = "bx bxs-lock-alt"
+            }
+        }
+    </script>
 </body>
 </html>
