@@ -214,6 +214,51 @@ def cerrar_login():
     return redirect(url_for("login"))
 
 
+@app.route("/admin-panel/users/add-user", methods=["POST", "GET"])
+def admin_panel_users_add_user():
+    template = "admin_users.html"  # Default Template
+    context = {"error_message": None, "success_message": None}  # Default Mensaje
+
+    if request.method == 'POST':
+        user = Users(user_name=request.form['txtUserName'],
+                     user_email=request.form['txtEmail'].lower(),
+                     role_id=int(request.form['txtRole']))
+        
+        # Crear hash contraseña
+        try:
+            user.user_password = (request.form['txtPassword'])
+        except Exception as e:
+            print(e)
+            flash("Error Proceso Hashing", "error")
+            return redirect(url_for("admin_panel_users"))
+
+        # Revisar correo unico
+        try:
+            mail = request.form['txtEmail'].lower()
+
+            if user.verify_mail(mail):
+                flash("E-Mail Existente", "error")
+                return redirect(url_for("admin_panel_users"))
+        except Exception as e:
+            print(e)
+            flash("Error Validar Mail", "error")
+            return redirect(url_for("admin_panel_users"))
+
+        print(user)
+        db.session.add(user)
+
+        try:
+            db.session.commit()
+            flash("Usuario Creado", "success")
+            return redirect(url_for("admin_panel_users"))
+
+        except Exception as e:
+            print(e)
+            flash("Error Inesperado", "error")
+            return redirect(url_for("admin_panel_users"))
+    
+    return render_template(template, **context)
+
 # Definimos un bucle if main para ejecutar la web
 if __name__ == '__main__':
     db.Base.metadata.create_all(db.engine)

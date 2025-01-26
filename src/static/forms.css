@@ -51,3 +51,26 @@
         background-color: var(--bgray-1);
         font-weight: 800;
     }
+
+.general-form-message{
+    font-size: 14px;
+    font-weight: 500;
+    padding: 10px 0 0 20px;
+    opacity: 1;
+}
+.general-form-message.error{
+    color: var(--error-red);
+}
+
+.general-form-message.success{
+    color: var(--success-green);
+}
+
+.general-form-message.warning{
+    color: var(--warning-yellow);
+}
+
+.general-form-message.hide{
+    opacity: 0;
+    visibility: hidden;
+}
