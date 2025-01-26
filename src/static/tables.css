@@ -3,7 +3,7 @@
 .table-type-1 {
     margin: 10px 20px;
     border-collapse: collapse;
-    min-width: calc(100% - 40px);
+    min-width: 670px;
 }
 
     /* Titulos de contenido */

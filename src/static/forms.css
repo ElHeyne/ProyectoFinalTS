@@ -6,5 +6,48 @@
 }
 
 .table-form-type-1 {
-    /*  */
+    margin: 10px 20px;
+    display: flex;
+    flex-direction: column;
+    min-width: 670px;
 }
+
+    .table-form-type-1 fieldset{
+        border: none;
+        outline: none;
+        margin: 0 0 10px 0;
+    }
+
+    .table-form-type-1 input,
+    .table-form-type-1 select{
+        height: 38px;
+        background-color: var(--bgray-2);
+        border: none;
+        outline: none;
+        padding: 10px 8px;
+        margin: 0 10px 0 0;
+        transition: 0.3s;
+    }
+
+    .table-form-type-1 input:hover,
+    .table-form-type-1 select:hover,
+    .table-form-type-1 input:focus{
+        background-color: var(--bgray-1);
+    }
+
+    .table-form-type-1 button{
+        color: var(--main-orange);
+        height: 38px;
+        min-width: 120px;
+        background-color: var(--bgray-2);
+        border: none;
+        outline: none;
+        padding: 10px 8px;
+        margin: 0 10px 0 0;
+        transition: 0.3s;
+    }
+
+    .table-form-type-1 button:hover{
+        background-color: var(--bgray-1);
+        font-weight: 800;
+    }
