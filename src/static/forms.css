@@ -52,6 +52,23 @@
         font-weight: 800;
     }
 
+    .option-subform button{
+        color: transparent;
+        background-color: transparent;
+        border: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .option-subform button i{
+        color: var(--main-orange);
+        transition: 0.3s;
+    }
+
+    .option-subform button:hover i{
+        color: var(--delete-red)
+    }
+
 .general-form-message{
     font-size: 14px;
     font-weight: 500;

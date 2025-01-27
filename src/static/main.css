@@ -16,6 +16,19 @@ body{
         background-image: radial-gradient(circle, var(--background-details) 1px, var(--background-gray) 1px);
     }
 
+    .serious-body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        
+        background-image: 
+            linear-gradient(0deg, var(--error-red) 1px, transparent 1px),
+            linear-gradient(90deg, var(--error-red) 1px, transparent 1px);
+        background-repeat: repeat;
+        background-position: center;
+        animation: breathing 12s ease-in-out infinite;
+    }
+
     .unregistered-body {
         display: flex;
         justify-content: center;
