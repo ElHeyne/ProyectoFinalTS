@@ -5,7 +5,7 @@
     <link rel="icon" type="image/png" href="/static/images/favicon.png">
     <link rel="icon" type="image/x-icon" href="/static/images/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfil</title>
+    <title>Confirmar Eliminación Usuario {{user.user_name}}</title>
 
     <!--stylesheets-->
     <link rel="stylesheet" href="/static/variables.css">
@@ -17,35 +17,28 @@
     <link rel="stylesheet" href="/static/forms.css">
 
     <!--External Links-->
-
+    
     <!--Lexend | Google Fonts-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
     <!--JetBrains Mono | Google Fonts-->
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+    
 </head>
-<body class="general-body">
-    <header class="header">
-        <span>
-            <a href="/" class="home">Home</a>
 
-            <a href="/Perfil" class="subrute"> \Perfil</a>
-        </span>
+<body class="serious-body">
+    <section class="container-type-1 flex-container flex-column flex-jst-center">
+        <form action="/admin-panel/users/confirm-deletion/{{ user.user_id }}" method="POST" class="delete-confirm-form flex-container flex-column flex-jst-center">
+            <h1>Confirmar Eliminación de Usuario</h1>
+            <h2>¿Eliminar al usuario {{ user.user_name }}?</h2>
+            <p>ID: {{user.user_id}} - E-Mail: {{user.user_email}}</p>
 
-        <nav class="navbar">
-            <a href="/profile">Perfil</a>
-            <a href="/products">Productos</a>
-            <a href="/statistics">Estadísticas</a>
-            {% if is_admin == True %}
-                <a href="/admin-panel">Panel Admin</a>
-            {% endif %}
-            <a class="log-out" href="/cerrar-login">Cerrar Sesión</a>
-        </nav>
-    </header>
-
-    <section class="container-type-1">
-        <h1>Perfil</h1>
+            <section class="flex-container flex-jst-center">
+                <button class="delete-button" type="submit" name="confirm">Eliminar</button>
+                <button type="submit" name="cancel">Cancelar</button>
+            </section>
+        </form>
     </section>
 </body>
 </html>

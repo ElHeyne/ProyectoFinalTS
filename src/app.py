@@ -110,6 +110,30 @@ def admin_panel_users():
     return render_template("admin_users.html", is_admin=session["is_admin"],
                            registered_users=registered_users)
 
+@app.route("/admin-panel/users/confirm-deletion/<int:id>", methods=["POST", "GET"])
+@admin_login_required
+def admin_panel_users_confirm_deletion(id):
+    user = db.session.query(Users).filter_by(user_id=id).first()
+
+    if request.method == "POST":
+        if "confirm" in request.form:
+            try:
+                db.session.query(Users).filter_by(user_id=id).delete()
+                db.session.commit()
+                print(f"DEBUG - Eliminado Usuario {user}")
+                flash(f"Eliminado Usuario {user.user_id} - {user.user_name}", "success")
+                return redirect(url_for("admin_panel_users"))
+            except Exception as e:
+                print(e)
+                flash("Error Proceso Eliminación Usuario", "error")
+                return redirect(url_for("admin_panel_users"))
+        elif "cancel" in request.form:
+            print("DEBUG - Eliminacion Cancelada")
+            flash("Eliminación Cancelada", "warning")
+            return redirect(url_for("admin_panel_users"))
+            
+    return render_template("admin_users_confirm_deletion.html",user=user, is_admin=session["is_admin"])
+
 @app.route("/admin-panel/suppliers")
 @admin_login_required
 def admin_panel_suppliers():
@@ -256,6 +280,25 @@ def admin_panel_users_add_user():
             return redirect(url_for("admin_panel_users"))
     
     return render_template(template, **context)
+
+@app.route("/admin-panel/users/delete-user/<int:id>", methods=["POST"])
+def admin_panel_users_delete_user(id):
+    template = "admin_users.html"  # Default Template
+    context = {"error_message": None, "success_message": None}  # Default Mensaje
+
+    print(id, "DEBUG HERE", request.method)
+
+    if request.method == 'POST':
+        user = db.session.query(Users).filter_by(user_id = id).first()
+        print(user)
+
+        if type(id) != int:
+            flash("Error de ID", "error")
+            return redirect(url_for("admin_panel_users"))
+        else:
+            return redirect(url_for("admin_panel_users_confirm_deletion", id=id))
+
+    return redirect(url_for("admin_panel_users"))
 
 # Definimos un bucle if main para ejecutar la web
 if __name__ == '__main__':
