@@ -1,5 +1,5 @@
 import db
-from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, Float, DECIMAL, DateTime, text
+from sqlalchemy import Column, Integer, String, ForeignKey, DECIMAL, DateTime, text
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
