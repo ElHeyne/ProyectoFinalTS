@@ -5,6 +5,7 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 from flask_session import Session
 from functools import wraps
 from models import Users
+from sqlalchemy import desc
 import db
 import time
 
@@ -121,8 +122,10 @@ def admin_panel():
 @admin_login_required
 def admin_panel_users():
     registered_users = db.session.query(Users).order_by(Users.user_id)
+    recent_registers = db.session.query(Users).order_by(desc(Users.user_register_date)).limit(5)
     return render_template("admin_users.html", is_admin=session["is_admin"],
-                           registered_users=registered_users)
+                           registered_users=registered_users,
+                           recent_registers=recent_registers)
 
 
 @app.route("/admin-panel/users/confirm-deletion/<int:delete_id>", methods=["POST", "GET"])
