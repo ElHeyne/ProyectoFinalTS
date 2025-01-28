@@ -7,6 +7,7 @@ from functools import wraps
 from models import Users
 import db
 import time
+
 # import os
 # import platform
 
@@ -16,24 +17,26 @@ app = Flask(__name__)
 app.config['SESSION_TYPE'] = 'filesystem'
 app.config['SESSION_PERMANENT'] = False
 Session(app)
+
+
 # app.secret_key = os.environ.get("SECRET_KEY") or str(hash(platform.node())) # Sistema de session antiguo
+
 
 @app.before_request
 def validate_session():
     if request.endpoint == 'static':
         return
-    print("DEBUG - Validando Sesion")
     time.sleep(0.3)
-    print("DEBUG - Sesion Validada")
     if 'user_id' in session:
         user = db.session.query(Users).filter_by(user_id=session['user_id']).first()
         if not user:
             session.clear()
-            flash("Error - Sesión Expirada", "warning")
+            flash("Sesión Expirada", "warning")
             return redirect(url_for("login"))
         elif user.role_id != session.get('role_id'):
             session['role_id'] = user.role_id
             session['is_admin'] = user.role_id == 0
+
 
 def login_required(original_function):
     @wraps(original_function)
@@ -42,6 +45,7 @@ def login_required(original_function):
             print("Not Logged In")
             return redirect(url_for('login'))
         return original_function(*args, **kwargs)
+
     return decorated_function
 
 
@@ -62,9 +66,12 @@ def admin_login_required(original_function):
         if redirect_url:
             return redirect(redirect_url)
         return original_function(*args, **kwargs)
+
     return decorated_function
 
+
 # RUTAS SIN LOG IN
+
 
 @app.route("/login")
 def login():
@@ -75,33 +82,40 @@ def login():
 def register():
     return render_template("register.html")
 
+
 # RUTAS USUARIO
 @app.route("/")
 @login_required
 def home():
     return render_template("index.html", is_admin=session["is_admin"])
 
+
 @app.route("/profile")
 @login_required
 def profile():
     return render_template("index_profile.html", is_admin=session["is_admin"])
+
 
 @app.route("/products")
 @login_required
 def products():
     return render_template("index_products.html", is_admin=session["is_admin"])
 
+
 @app.route("/statistics")
 @login_required
 def statistics():
     return render_template("index_statistics.html", is_admin=session["is_admin"])
 
+
 # RUTAS ADMINISTRADOR
+
 
 @app.route("/admin-panel")
 @admin_login_required
 def admin_panel():
     return render_template("admin.html", is_admin=session["is_admin"])
+
 
 @app.route("/admin-panel/users")
 @admin_login_required
@@ -110,17 +124,17 @@ def admin_panel_users():
     return render_template("admin_users.html", is_admin=session["is_admin"],
                            registered_users=registered_users)
 
-@app.route("/admin-panel/users/confirm-deletion/<int:id>", methods=["POST", "GET"])
+
+@app.route("/admin-panel/users/confirm-deletion/<int:delete_id>", methods=["POST", "GET"])
 @admin_login_required
-def admin_panel_users_confirm_deletion(id):
-    user = db.session.query(Users).filter_by(user_id=id).first()
+def admin_panel_users_confirm_deletion(delete_id):
+    user = db.session.query(Users).filter_by(user_id=delete_id).first()
 
     if request.method == "POST":
         if "confirm" in request.form:
             try:
-                db.session.query(Users).filter_by(user_id=id).delete()
+                db.session.query(Users).filter_by(user_id=delete_id).delete()
                 db.session.commit()
-                print(f"DEBUG - Eliminado Usuario {user}")
                 flash(f"Eliminado Usuario {user.user_id} - {user.user_name}", "success")
                 return redirect(url_for("admin_panel_users"))
             except Exception as e:
@@ -128,45 +142,45 @@ def admin_panel_users_confirm_deletion(id):
                 flash("Error Proceso Eliminación Usuario", "error")
                 return redirect(url_for("admin_panel_users"))
         elif "cancel" in request.form:
-            print("DEBUG - Eliminacion Cancelada")
             flash("Eliminación Cancelada", "warning")
             return redirect(url_for("admin_panel_users"))
-            
-    return render_template("admin_users_confirm_deletion.html",user=user, is_admin=session["is_admin"])
+
+    return render_template("admin_users_confirm_deletion.html", user=user, is_admin=session["is_admin"])
+
 
 @app.route("/admin-panel/suppliers")
 @admin_login_required
 def admin_panel_suppliers():
     return render_template("admin_suppliers.html", is_admin=session["is_admin"])
 
+
 @app.route("/admin-panel/products")
 @admin_login_required
 def admin_panel_products():
     return render_template("admin_products.html", is_admin=session["is_admin"])
+
 
 @app.route("/admin-panel/categories")
 @admin_login_required
 def admin_panel_categories():
     return render_template("admin_categories.html", is_admin=session["is_admin"])
 
+
 # RUTAS DE PROCESO
 
-@app.route("/login-access", methods=["POST", "GET"])
-def acceso_login():  # TODO Explicar en documentación
-    template = "login.html"  # Default Template
-    context = {"error_message": "Error Inesperado"}  # Default Mensaje
 
+@app.route("/login-access", methods=["POST", "GET"])
+def acceso_login():
     if request.method == 'POST':
         _correo = request.form['txtEmail'].lower()
         _password = request.form['txtPassword']
         user = db.session.query(Users).filter_by(user_email=_correo).first()
 
-        if user and user.verify_password(_password):  # Comprobación usuario activo y contraseña correcta
+        # Comprobación usuario activo y contraseña correcta
+        if user and user.verify_password(_password):
             session['user_id'] = user.user_id
             session['role_id'] = user.role_id
             session['login'] = True
-
-            print("DEBUG - LOGGED IN", session)
 
             if session['role_id'] == 0:
                 session['is_admin'] = True
@@ -175,18 +189,18 @@ def acceso_login():  # TODO Explicar en documentación
                 session['is_admin'] = False
                 return redirect(url_for("home"))
             else:
-                context["error_message"] = "Error de Privilegios"
+                flash("Error de Privilegios", "error")
+                return redirect(url_for("login"))
         else:
-            context["error_message"] = "Usuario Incorrecto"
+            flash("Contraseña Incorrecto", "error")
+            return redirect(url_for("login"))
 
-    return render_template(template, **context)
+    flash("Error de Método", "error")
+    return redirect(url_for("login"))
 
 
 @app.route("/register-access", methods=["POST", "GET"])
-def acceso_registro():  # TODO Esplicar en documentacion (context con dos variables)
-    template = "register.html"  # Default Template
-    context = {"error_message": None, "success_message": None}  # Default Mensaje
-
+def acceso_registro():
     if request.method == 'POST':
         user = Users(user_name=request.form['txtUserName'],
                      user_email=request.form['txtEmail'].lower(),
@@ -197,32 +211,35 @@ def acceso_registro():  # TODO Esplicar en documentacion (context con dos variab
             user.user_password = (request.form['txtPassword'])
         except Exception as e:
             print(e)
-            context["error_message"] = "Error Proceso Hashing"
+            flash("Error Proceso Hashing", "error")
+            return redirect(url_for("login"))
 
         # Revisar correo unico
         try:
             mail = request.form['txtEmail'].lower()
 
             if user.verify_mail(mail):
-                flash("Advertencia: E-Mail Existente", "warning")
+                flash("E-Mail Existente", "warning")
                 return redirect(url_for("login"))
         except Exception as e:
             print(e)
-            context["error_message"] = "Error Validar Mail"
+            flash("Error Validar Mail", "error")
+            return redirect(url_for("login"))
 
-        print(user)
-        db.session.add(user)
-
+        # Añadir usuario
         try:
+            db.session.add(user)
             db.session.commit()
             flash("Usuario Creado", "success")
             return redirect(url_for("login"))
 
         except Exception as e:
             print(e)
-            context["error_message"] = "Error Inseperado"
+            flash("Error Procesar Usuario", "error")
+            return redirect(url_for("login"))
 
-    return render_template(template, **context)
+    flash("Error de Método", "error")
+    return redirect(url_for("login"))
 
 
 @app.route("/cerrar-login", methods=["POST", "GET"])
@@ -231,21 +248,17 @@ def cerrar_login():
     session.pop('role_id', None)
     session.pop('is_admin', False)
 
-    print("DEBUG - SESSIONS DELETED")
-
+    flash("Sessión Cerrada", "warning")
     return redirect(url_for("login"))
 
 
 @app.route("/admin-panel/users/add-user", methods=["POST", "GET"])
 def admin_panel_users_add_user():
-    template = "admin_users.html"  # Default Template
-    context = {"error_message": None, "success_message": None}  # Default Mensaje
-
     if request.method == 'POST':
         user = Users(user_name=request.form['txtUserName'],
                      user_email=request.form['txtEmail'].lower(),
                      role_id=int(request.form['txtRole']))
-        
+
         # Crear hash contraseña
         try:
             user.user_password = (request.form['txtPassword'])
@@ -259,46 +272,41 @@ def admin_panel_users_add_user():
             mail = request.form['txtEmail'].lower()
 
             if user.verify_mail(mail):
-                flash("E-Mail Existente", "error")
+                flash("E-Mail Existente", "warning")
                 return redirect(url_for("admin_panel_users"))
         except Exception as e:
             print(e)
             flash("Error Validar Mail", "error")
             return redirect(url_for("admin_panel_users"))
 
-        print(user)
-        db.session.add(user)
-
+        # Añadir usuario
         try:
+            db.session.add(user)
             db.session.commit()
             flash("Usuario Creado", "success")
             return redirect(url_for("admin_panel_users"))
 
         except Exception as e:
             print(e)
-            flash("Error Inesperado", "error")
+            flash("Error Procesar Usuario", "error")
             return redirect(url_for("admin_panel_users"))
-    
-    return render_template(template, **context)
 
-@app.route("/admin-panel/users/delete-user/<int:id>", methods=["POST"])
-def admin_panel_users_delete_user(id):
-    template = "admin_users.html"  # Default Template
-    context = {"error_message": None, "success_message": None}  # Default Mensaje
+    flash("Error de Método", "error")
+    return redirect(url_for("admin_panel_users"))
 
-    print(id, "DEBUG HERE", request.method)
 
+@app.route("/admin-panel/users/delete-user/<int:delete_id>", methods=["POST"])
+def admin_panel_users_delete_user(delete_id):
     if request.method == 'POST':
-        user = db.session.query(Users).filter_by(user_id = id).first()
-        print(user)
-
-        if type(id) != int:
+        if isinstance(delete_id, int):
+            return redirect(url_for("admin_panel_users_confirm_deletion", delete_id=delete_id))
+        else:
             flash("Error de ID", "error")
             return redirect(url_for("admin_panel_users"))
-        else:
-            return redirect(url_for("admin_panel_users_confirm_deletion", id=id))
 
+    flash("Error de Método", "error")
     return redirect(url_for("admin_panel_users"))
+
 
 # Definimos un bucle if main para ejecutar la web
 if __name__ == '__main__':

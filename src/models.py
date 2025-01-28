@@ -41,6 +41,7 @@ class Users(db.Base):
         mail_check = db.session.query(Users).filter_by(user_email=mail).first()
         return mail_check is not None
 
+
 class Roles(db.Base):
     __tablename__ = "roles"
     role_id = Column(Integer, primary_key=True, autoincrement=False)
@@ -80,13 +81,13 @@ class Suppliers(db.Base):
 
     def __repr__(self):
         return "Supplier {}:{},{},{},{},{},{},{}".format(self.supplier_id, self.supplier_name, self.supplier_phone,
-                                                          self.supplier_commercial_address, self.supplier_country,
-                                                          self.supplier_nif, self.supplier_discount, self.supplier_iva)
+                                                         self.supplier_commercial_address, self.supplier_country,
+                                                         self.supplier_nif, self.supplier_discount, self.supplier_iva)
 
     def __str__(self):
         return "Supplier {}:{},{},{},{},{},{},{}".format(self.supplier_id, self.supplier_name, self.supplier_phone,
-                                                          self.supplier_commercial_address, self.supplier_country,
-                                                          self.supplier_nif, self.supplier_discount, self.supplier_iva)
+                                                         self.supplier_commercial_address, self.supplier_country,
+                                                         self.supplier_nif, self.supplier_discount, self.supplier_iva)
 
 
 class Categories(db.Base):
@@ -103,11 +104,11 @@ class Categories(db.Base):
 
     def __repr__(self):
         return "Category {}:{},{},{}".format(self.category_id, self.category_name, self.category_referencial,
-                                              self.category_zone)
+                                             self.category_zone)
 
     def __str__(self):
         return "Category {}:{},{},{}".format(self.category_id, self.category_name, self.category_referencial,
-                                              self.category_zone)
+                                             self.category_zone)
 
 
 class Products(db.Base):
@@ -120,7 +121,8 @@ class Products(db.Base):
     product_referencial = Column(String(255), nullable=False, server_default="unidentified_referencial")
     product_limit_stock = Column(Integer, nullable=False, server_default="1")
     product_active_stock = Column(Integer, nullable=False, server_default="0")
-    product_warehouse = Column(String(255), nullable=False, server_default="unidentified_warehouse") # Es una ubicacion como calle o codigo.
+    product_warehouse = Column(String(255), nullable=False,
+                               server_default="unidentified_warehouse")  # Es una ubicacion como calle o codigo.
     product_zone = Column(String(255), nullable=False, server_default="unidentified_zone")
 
     def __init__(self, supplier_id, category_id, product_name, product_price, product_referencial, product_limit_stock,
@@ -148,4 +150,3 @@ class Products(db.Base):
                                                               self.product_referencial, self.product_limit_stock,
                                                               self.product_active_stock, self.product_warehouse,
                                                               self.product_zon)
-
