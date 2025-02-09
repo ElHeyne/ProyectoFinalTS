@@ -5,11 +5,15 @@
     max-height: 500px;
 }
 
+.container-type-2{
+    margin: 10px 20px;
+    max-height: 500px;
+}
+
 .overflow{
     flex: 1 1 auto;
-    width: min-content;
     overflow-y: auto;
-    overflow-x: auto;
+    width: fit-content;
     
     scrollbar-color: var(--main-orange) transparent;
     scroll-behavior: smooth;

@@ -3,6 +3,7 @@
 .table-type-1 {
     margin: 10px 20px;
     border-collapse: collapse;
+    width: 100%;
     min-width: 670px;
     position: relative;
 }
@@ -74,4 +75,8 @@
 .table-sticky-header th{
     position: sticky;
     top: 0;
+}
+
+.no-table-margin{
+    margin: 0;
 }
