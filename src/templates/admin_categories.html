@@ -25,6 +25,9 @@
     <!--JetBrains Mono | Google Fonts-->
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
 
+    <!--Iconos Minimalistas | Boxicons-->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
 </head>
 <body class="general-body">
     <header class="header">
@@ -59,5 +62,120 @@
     <section class="container-type-1">
         <h1>Administración Categorías</h1> <!-- TODO Saludar al usuario creando un nuevo valor llamado user_name y mandarlo en el form, guardandolo en sesion-->
     </section>
+
+    <section class="container-type-1 flex-container flex-jst-sb">
+        <article class="container-type-1 no-margin full-width">
+            <section class="container-type-1 flex-container flex-column no-margin">
+                <h2>Lista de Categorias</h2>
+                <section class="container-type-2 overflow">
+                    <table class="table-type-1 no-table-margin table-sticky-header alternate hover">
+                        <thead>
+                            <tr>
+                                <th class="th-title">ID</th>
+                                <th class="th-title">Categoría</th>
+                                <th class="th-title">Referencial</th>
+                                <th class="th-title">Zona</th>
+
+                                <th class="th-option">Opciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if registered_categories %}
+                            {% for category in registered_categories %}
+                            <tr>
+                                <td>{{category.category_id}}</td>
+                                <td>{{category.category_name}}</td>
+                                <td>{{category.category_referencial}}</td>
+                                <td>{{category.category_zone}}</td>
+
+                                <td class="td-option">
+                                    <form action="/admin-panel/categories/delete-category/{{ category.category_id }}" method="POST" class="option-subform">
+                                        <button type="submit">
+                                            <i class='bx bxs-trash-alt'></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </section>
+            </section>
+        </article>
+    </section>
+
+    <section class="container-type-1 flex-container">
+        <article class="no-margin">
+            <h2>Añadir Categoria</h2>
+            <form action="/admin-panel/categories/add-category" method="POST" class="table-form-type-1">
+                <fieldset class="flex-container">
+                    <section>
+                        <input type="text" id="name_input" placeholder="Categoría" name="txtCategoryName" required autocomplete="off">
+                    </section>
+                    <section>
+                        <input type="text" id="referencial_input" placeholder="Referencial" name="txtCategoryReferencial" required autocomplete="off">
+                    </section>
+                    <section>
+                        <input type="text" id="zone_input" placeholder="Zona" name="txtCategoryZone" required autocomplete="off">
+                    </section>
+                </fieldset>
+                <fieldset>
+                    <section class="flex-container">
+                        <section>
+                            <button type="submit">Enviar</button>
+                        </section>
+                        <section>
+                            <button type="reset">Limpiar</button>
+                        </section>
+                    </section>
+                </fieldset>
+                <fieldset>
+                    <section id="error-message" class="general-form-message error">
+                        {% with messages = get_flashed_messages(category_filter=["error"]) %}
+                            {% if messages %}
+                                {% for message in messages %}
+                                  {{ message }}
+                                {% endfor %}
+                            {% endif %}
+                        {% endwith %}
+                    </section>
+                    <section id="success-message" class="general-form-message success">
+                        {% with messages = get_flashed_messages(category_filter=["success"]) %}
+                            {% if messages %}
+                                {% for message in messages %}
+                                  {{ message }}
+                                {% endfor %}
+                            {% endif %}
+                        {% endwith %}
+                    </section>
+                    <section id="warning-message" class="general-form-message warning">
+                        {% with messages = get_flashed_messages(category_filter=["warning"]) %}
+                            {% if messages %}
+                                {% for message in messages %}
+                                  {{ message }}
+                                {% endfor %}
+                            {% endif %}
+                        {% endwith %}
+                    </section>
+                </fieldset>
+            </form>
+        </article>
+    </section>
+
+    <script>
+        function hideMessage(id) {
+            const element = document.getElementById(id);
+            if (element && element.innerText.trim() !== "") {
+                setTimeout(() => {
+                    element.classList.add('hide');
+                }, 10000);
+            }
+        }
+
+        hideMessage('error-message');
+        hideMessage('success-message');
+        hideMessage('warning-message');
+    </script>
 </body>
 </html>

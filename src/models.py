@@ -125,6 +125,16 @@ class Categories(db.Base):
         return "Category {}:{},{},{}".format(self.category_id, self.category_name, self.category_referencial,
                                              self.category_zone)
 
+    @staticmethod
+    def verify_name(name):
+        name_check = db.session.query(Categories).filter(func.lower(Categories.category_name) == name).first()
+        return name_check is not None
+
+    @staticmethod
+    def verify_referencial(referencial):
+        referencial_check = db.session.query(Categories).filter_by(category_referencial=referencial).first()
+        return referencial_check is not None
+
 
 class Products(db.Base):
     __tablename__ = "products"

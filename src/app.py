@@ -4,7 +4,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_session import Session
 from functools import wraps
-from models import Users, Suppliers
+from models import Users, Suppliers, Categories
 from sqlalchemy import desc
 import db
 import time
@@ -193,7 +193,9 @@ def admin_panel_products():
 @app.route("/admin-panel/categories")
 @admin_login_required
 def admin_panel_categories():
-    return render_template("admin_categories.html", is_admin=session["is_admin"])
+    registered_categories = db.session.query(Categories).order_by(Categories.category_id)
+    return render_template("admin_categories.html", is_admin=session["is_admin"],
+                           registered_categories=registered_categories)
 
 
 # RUTAS DE PROCESO
@@ -397,6 +399,7 @@ def admin_panel_suppliers_add_supplier():
             flash("Error Procesar Proveedor", "error")
             return redirect(url_for("admin_panel_suppliers"))
 
+
 @app.route("/admin-panel/suppliers/delete-supplier/<int:delete_id>", methods=["POST"])
 def admin_panel_suppliers_delete_supplier(delete_id):
     if request.method == 'POST':
@@ -408,6 +411,51 @@ def admin_panel_suppliers_delete_supplier(delete_id):
 
     flash("Error de Método", "error")
     return redirect(url_for("admin_panel_suppliers"))
+
+
+@app.route("/admin-panel/categories/add-category", methods=["POST", "GET"])
+def admin_panel_categories_add_category():
+    if request.method == 'POST':
+        category = Categories(category_name=request.form['txtCategoryName'],
+                              category_referencial=request.form['txtCategoryReferencial'].upper(),
+                              category_zone=request.form['txtCategoryZone'].upper())
+
+        # Revisar Nombre Unico
+        try:
+            name = request.form['txtCategoryName'].lower()
+
+            if category.verify_name(name):
+                flash("Nombre de Categoría Existente", "warning")
+                return redirect(url_for("admin_panel_categories"))
+        except Exception as e:
+            print(e)
+            flash("Error Validar Nombre", "error")
+            return redirect(url_for("admin_panel_categories"))
+
+        # Revisar Referencial Unico
+        try:
+            referencial = request.form['txtCategoryReferencial'].lower()
+
+            if category.verify_referencial(referencial):
+                flash("Referencial de Categoría Existente", "warning")
+                return redirect(url_for("admin_panel_categories"))
+        except Exception as e:
+            print(e)
+            flash("Error Validar Referencial", "error")
+            return redirect(url_for("admin_panel_categories"))
+
+        # Añadir categoria
+        try:
+            db.session.add(category)
+            db.session.commit()
+            flash("Categoría Creada", "success")
+            return redirect(url_for("admin_panel_categories"))
+
+        except Exception as e:
+            print(e)
+            flash("Error Procesar Categoria", "error")
+            return redirect(url_for("admin_panel_categories"))
+
 
 # Definimos un bucle if main para ejecutar la web
 if __name__ == '__main__':
