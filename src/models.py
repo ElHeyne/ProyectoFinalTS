@@ -1,5 +1,5 @@
 import db
-from sqlalchemy import Column, Integer, String, ForeignKey, DECIMAL, DateTime, text
+from sqlalchemy import Column, Integer, String, ForeignKey, DECIMAL, DateTime, text, func
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
@@ -88,6 +88,21 @@ class Suppliers(db.Base):
         return "Supplier {}:{},{},{},{},{},{},{}".format(self.supplier_id, self.supplier_name, self.supplier_phone,
                                                          self.supplier_commercial_address, self.supplier_country,
                                                          self.supplier_nif, self.supplier_discount, self.supplier_iva)
+
+    @staticmethod
+    def verify_name(name):
+        name_check = db.session.query(Suppliers).filter(func.lower(Suppliers.supplier_name) == name).first()
+        return name_check is not None
+    
+    @staticmethod
+    def verify_phone(phone):
+        phone_check = db.session.query(Suppliers).filter_by(supplier_phone=phone).first()
+        return phone_check is not None
+
+    @staticmethod
+    def verify_nif(nif):
+        nif_check = db.session.query(Suppliers).filter_by(supplier_nif=nif).first()
+        return nif_check is not None
 
 
 class Categories(db.Base):

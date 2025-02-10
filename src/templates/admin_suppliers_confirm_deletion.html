@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="/static/images/favicon.png">
+    <link rel="icon" type="image/x-icon" href="/static/images/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmar Eliminación Proveedor {{supplier.supplier_name}}</title>
+
+    <!--stylesheets-->
+    <link rel="stylesheet" href="/static/variables.css">
+    <link rel="stylesheet" href="/static/main.css">
+    <link rel="stylesheet" href="/static/containers.css">
+    <link rel="stylesheet" href="/static/fonts.css">
+    <link rel="stylesheet" href="/static/forms.css">
+
+    <!--External Links-->
+
+    <!--Lexend | Google Fonts-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
+    <!--JetBrains Mono | Google Fonts-->
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+
+</head>
+
+<body class="serious-body">
+    <section class="container-type-1 flex-container flex-column flex-jst-center">
+        <form action="/admin-panel/suppliers/confirm-deletion/{{ supplier.supplier_id }}" method="POST" class="delete-confirm-form flex-container flex-column flex-jst-center">
+            <h1>Confirmar Eliminación de Proveedor</h1>
+            <h2>¿Eliminar al proveedor {{ supplier.supplier_name }}?</h2>
+            <p>ID: {{supplier.supplier_id}} - E-Mail: {{supplier.supplier_nif}}</p>
+
+            <section class="flex-container flex-jst-center">
+                <button class="delete-button" type="submit" name="confirm">Eliminar</button>
+                <button type="submit" name="cancel">Cancelar</button>
+            </section>
+        </form>
+    </section>
+</body>
+</html>

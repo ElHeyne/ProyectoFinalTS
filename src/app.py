@@ -4,7 +4,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_session import Session
 from functools import wraps
-from models import Users
+from models import Users, Suppliers
 from sqlalchemy import desc
 import db
 import time
@@ -85,6 +85,8 @@ def register():
 
 
 # RUTAS USUARIO
+
+
 @app.route("/")
 @login_required
 def home():
@@ -154,7 +156,32 @@ def admin_panel_users_confirm_deletion(delete_id):
 @app.route("/admin-panel/suppliers")
 @admin_login_required
 def admin_panel_suppliers():
-    return render_template("admin_suppliers.html", is_admin=session["is_admin"])
+    registered_suppliers = db.session.query(Suppliers).order_by(Suppliers.supplier_id)
+    return render_template("admin_suppliers.html", is_admin=session["is_admin"],
+                           registered_suppliers=registered_suppliers)
+
+
+@app.route("/admin-panel/suppliers/confirm-deletion/<int:delete_id>", methods=["POST", "GET"])
+@admin_login_required
+def admin_panel_suppliers_confirm_deletion(delete_id):
+    supplier = db.session.query(Suppliers).filter_by(supplier_id=delete_id).first()
+
+    if request.method == "POST":
+        if "confirm" in request.form:
+            try:
+                db.session.query(Suppliers).filter_by(supplier_id=delete_id).delete()
+                db.session.commit()
+                flash(f"Eliminado Proveedor {supplier.supplier_id} - {supplier.supplier_name}", "success")
+                return redirect(url_for("admin_panel_suppliers"))
+            except Exception as e:
+                print(e)
+                flash("Error Proceso Eliminación Proveedor", "error")
+                return redirect(url_for("admin_panel_suppliers"))
+        elif "cancel" in request.form:
+            flash("Eliminación Cancelada", "warning")
+            return redirect(url_for("admin_panel_suppliers"))
+
+    return render_template("admin_suppliers_confirm_deletion.html", supplier=supplier, is_admin=session["is_admin"])
 
 
 @app.route("/admin-panel/products")
@@ -310,6 +337,77 @@ def admin_panel_users_delete_user(delete_id):
     flash("Error de Método", "error")
     return redirect(url_for("admin_panel_users"))
 
+
+@app.route("/admin-panel/suppliers/add-supplier", methods=["POST", "GET"])
+def admin_panel_suppliers_add_supplier():
+    if request.method == "POST":
+        supplier = Suppliers(supplier_name=request.form['txtSupplierName'],
+                             supplier_phone=request.form['txtSupplierPhone'],
+                             supplier_nif=request.form['txtSupplierNif'].upper(),
+                             supplier_commercial_address=request.form['txtSupplierAddress'],
+                             supplier_discount=request.form['txtSupplierDiscount'],
+                             supplier_iva=request.form['txtSupplierIva'],
+                             supplier_country=request.form['txtSupplierCountry'])
+        
+        # Revisar Nombre Único
+        try:
+            name = request.form['txtSupplierName'].lower()
+
+            if supplier.verify_name(name):
+                flash("Nombre de Proveedor Existente", "warning")
+                return redirect(url_for("admin_panel_suppliers"))
+        except Exception as e:
+            print(e)
+            flash("Error Validar Nombre", "error")
+            return redirect(url_for("admin_panel_suppliers"))
+
+        # Revisar Teléfono Único
+        try:
+            phone = request.form['txtSupplierPhone']
+
+            if supplier.verify_phone(phone):
+                flash("Número de Proveedor Existente", "warning")
+                return redirect(url_for("admin_panel_suppliers"))
+        except Exception as e:
+            print(e)
+            flash("Error Validar Número", "error")
+            return redirect(url_for("admin_panel_suppliers"))
+
+        # Revisar NIF Único
+        try:
+            nif = request.form['txtSupplierNif'].upper()
+
+            if supplier.verify_nif(nif):
+                flash("NIF de Proveedor Existente", "warning")
+                return redirect(url_for("admin_panel_suppliers"))
+        except Exception as e:
+            print(e)
+            flash("Error Validar NIF", "error")
+            return redirect(url_for("admin_panel_suppliers"))
+
+        # Añadir proveedor
+        try:
+            db.session.add(supplier)
+            db.session.commit()
+            flash("Proveedor Creado", "success")
+            return redirect(url_for("admin_panel_suppliers"))
+
+        except Exception as e:
+            print(e)
+            flash("Error Procesar Proveedor", "error")
+            return redirect(url_for("admin_panel_suppliers"))
+
+@app.route("/admin-panel/suppliers/delete-supplier/<int:delete_id>", methods=["POST"])
+def admin_panel_suppliers_delete_supplier(delete_id):
+    if request.method == 'POST':
+        if isinstance(delete_id, int):
+            return redirect(url_for("admin_panel_suppliers_confirm_deletion", delete_id=delete_id))
+        else:
+            flash("Error de ID", "error")
+            return redirect(url_for("admin_panel_suppliers"))
+
+    flash("Error de Método", "error")
+    return redirect(url_for("admin_panel_suppliers"))
 
 # Definimos un bucle if main para ejecutar la web
 if __name__ == '__main__':
