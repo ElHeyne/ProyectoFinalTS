@@ -197,6 +197,31 @@ def admin_panel_categories():
     return render_template("admin_categories.html", is_admin=session["is_admin"],
                            registered_categories=registered_categories)
 
+@app.route("/admin-panel/categories/confirm-deletion/<int:delete_id>", methods=["POST", "GET"])
+@admin_login_required
+def admin_panel_categories_confirm_deletion(delete_id):
+    print("DEBUG - CATEGORY CONFIRM DEL")
+    category = db.session.query(Categories).filter_by(category_id=delete_id).first()
+
+    if request.method == "POST":
+        print("DEBUG - CATEGORY CONFIRM POST")
+        if "confirm" in request.form:
+            try:
+                db.session.query(Categories).filter_by(category_id=delete_id).delete()
+                db.session.commit()
+                flash(f"Eliminada Categoría {category.category_id} - {category.category_name}", "success")
+                return redirect(url_for("admin_panel_categories"))
+            except Exception as e:
+                print(e)
+                flash("Error Proceso Eliminación Categoría", "error")
+                return redirect(url_for("admin_panel_categories"))
+        elif "cancel" in request.form:
+            print("DEBUG - CANCELADA CATEGORIA DEL")
+            flash("Eliminación Cancelada", "warning")
+            return redirect(url_for("admin_panel_categories"))
+
+    return render_template("admin_categories_confirm_deletion.html", category=category, is_admin=session["is_admin"])
+
 
 # RUTAS DE PROCESO
 
@@ -456,6 +481,18 @@ def admin_panel_categories_add_category():
             flash("Error Procesar Categoria", "error")
             return redirect(url_for("admin_panel_categories"))
 
+
+@app.route("/admin-panel/categories/delete-category/<int:delete_id>", methods=["POST"])
+def admin_panel_categories_delete_category(delete_id):
+    if request.method == 'POST':
+        if isinstance(delete_id, int):
+            return redirect(url_for("admin_panel_categories_confirm_deletion", delete_id=delete_id))
+        else:
+            flash("Error de ID", "error")
+            return redirect(url_for("admin_panel_categories"))
+
+    flash("Error de Método", "error")
+    return redirect(url_for("admin_panel_categories"))
 
 # Definimos un bucle if main para ejecutar la web
 if __name__ == '__main__':
