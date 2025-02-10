@@ -34,5 +34,17 @@
     --pale-orange: #fd935d;
     --dark-orange: #501b00;
 
+    --main-green: #30fd30;
+    --pale-green: #3dff57;
+    --dark-green: #005004;
+
+    --main-blue: #4632fc;
+    --pale-blue: #5c51ff;
+    --dark-blue: #0c0050;
+
+    --main-magenta: #eb28fd;
+    --pale-magenta: #ff51f6;
+    --dark-magenta: #470050;
+
     --highlight-red: rgb(239 68 68);
 }
