@@ -143,6 +143,7 @@ class Products(db.Base):
     category_id = Column(Integer, ForeignKey("categories.category_id"), nullable=False)
     product_name = Column(String(255), nullable=False, server_default="unidentified_product")
     product_price = Column(DECIMAL(255, 2), nullable=False, server_default="0.00")
+    product_selling_price = Column(DECIMAL(255, 2), nullable=False, server_default="0.00")
     product_referencial = Column(String(255), nullable=False, server_default="unidentified_referencial")
     product_limit_stock = Column(Integer, nullable=False, server_default="1")
     product_active_stock = Column(Integer, nullable=False, server_default="0")
@@ -150,12 +151,13 @@ class Products(db.Base):
                                server_default="unidentified_warehouse")  # Es una ubicacion como calle o codigo.
     product_zone = Column(String(255), nullable=False, server_default="unidentified_zone")
 
-    def __init__(self, supplier_id, category_id, product_name, product_price, product_referencial, product_limit_stock,
+    def __init__(self, supplier_id, category_id, product_name, product_price, product_selling_price, product_referencial, product_limit_stock,
                  product_active_stock, product_warehouse, product_zone):
         self.supplier_id = supplier_id
         self.category_id = category_id
         self.product_name = product_name
         self.product_price = product_price
+        self.product_selling_price = product_selling_price
         self.product_referencial = product_referencial
         self.product_limit_stock = product_limit_stock
         self.product_active_stock = product_active_stock
@@ -163,15 +165,17 @@ class Products(db.Base):
         self.product_zone = product_zone
 
     def __repr__(self):
-        return "Product {}:{},{},{},{},{},{},{},{},{}".format(self.product_id, self.supplier_id, self.category_id,
-                                                              self.product_name, self.product_price,
-                                                              self.product_referencial, self.product_limit_stock,
-                                                              self.product_active_stock, self.product_warehouse,
-                                                              self.product_zon)
+        return "Product {}:{},{},{},{},{},{},{},{},{},{}".format(self.product_id, self.supplier_id, self.category_id,
+                                                            self.product_name, self.product_price,
+                                                            self.product_selling_price,
+                                                            self.product_referencial, self.product_limit_stock,
+                                                            self.product_active_stock, self.product_warehouse,
+                                                            self.product_zone)
 
     def __str__(self):
-        return "Product {}:{},{},{},{},{},{},{},{},{}".format(self.product_id, self.supplier_id, self.category_id,
-                                                              self.product_name, self.product_price,
-                                                              self.product_referencial, self.product_limit_stock,
-                                                              self.product_active_stock, self.product_warehouse,
-                                                              self.product_zon)
+        return "Product {}:{},{},{},{},{},{},{},{},{},{}".format(self.product_id, self.supplier_id, self.category_id,
+                                                            self.product_name, self.product_price,
+                                                            self.product_selling_price,
+                                                            self.product_referencial, self.product_limit_stock,
+                                                            self.product_active_stock, self.product_warehouse,
+                                                            self.product_zone)
