@@ -13,6 +13,7 @@
 }
 
     .table-form-type-1 fieldset{
+        flex-wrap: wrap;
         border: none;
         outline: none;
         margin: 0 0 10px 0;
@@ -25,8 +26,13 @@
         border: none;
         outline: none;
         padding: 10px 8px;
-        margin: 0 10px 0 0;
+        margin: 0 10px 10px 0;
         transition: 0.3s;
+    }
+
+    .table-form-type-1 input::placeholder,
+    .table-form-type-1 select:invalid{
+        color: var(--bgray-5)
     }
 
     .table-form-type-1 input:hover,
