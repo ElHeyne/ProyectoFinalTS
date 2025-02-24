@@ -4,7 +4,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_session import Session
 from functools import wraps
-from models import Users, Suppliers, Categories
+from models import Users, Suppliers, Categories, Products
 from sqlalchemy import desc
 import db
 import time
@@ -187,7 +187,28 @@ def admin_panel_suppliers_confirm_deletion(delete_id):
 @app.route("/admin-panel/products")
 @admin_login_required
 def admin_panel_products():
-    return render_template("admin_products.html", is_admin=session["is_admin"])
+    registered_products = db.session.query(
+        Products.product_id,
+        Suppliers.supplier_name,
+        Categories.category_name,
+        Products.product_name,
+        Products.product_price,
+        Products.product_selling_price,
+        Products.product_referencial,
+        Products.product_limit_stock,
+        Products.product_active_stock,
+        Products.product_warehouse,
+        Products.product_zone
+    ).join(Suppliers, Products.supplier_id == Suppliers.supplier_id).join(Categories, Products.category_id == Categories.category_id)
+
+    registered_categories = db.session.query(Categories).order_by(Categories.category_id)
+
+    registered_suppliers = db.session.query(Suppliers).order_by(Suppliers.supplier_id)
+
+    return render_template("admin_products.html", is_admin=session["is_admin"],
+                           registered_products=registered_products,
+                           registered_categories=registered_categories,
+                           registered_suppliers=registered_suppliers)
 
 
 @app.route("/admin-panel/categories")
@@ -493,6 +514,69 @@ def admin_panel_categories_delete_category(delete_id):
 
     flash("Error de Método", "error")
     return redirect(url_for("admin_panel_categories"))
+
+
+@app.route("/admin-panel/products/add-product", methods=["POST", "GET"])
+def admin_panel_products_add_product():
+    if request.method == 'POST':
+        product = Products(category_id=request.form['txtCategoryId'],
+                           supplier_id=request.form['txtSupplierId'],
+                           product_name=request.form['txtProductName'],
+                           product_price=request.form['txtProductPrice'],
+                           product_selling_price=request.form['txtProductSellingPrice'],
+                           product_referencial=request.form['txtProductReferencial'],
+                           product_limit_stock=request.form['txtProductLimitStock'],
+                           product_active_stock=request.form['txtProductActiveStock'],
+                           product_warehouse=request.form['txtProductWarehouse'],
+                           product_zone=request.form['txtProductZone'])
+
+    # Revisar Referencial Unico
+    try:
+        referencial = request.form['txtProductReferencial'].lower()
+
+        if product.verify_referencial(referencial):
+            flash("Referencial de Producto Existente", "warning")
+            return redirect(url_for("admin_panel_products"))
+    except Exception as e:
+        print(e)
+        flash("Error Validar Referencial", "error")
+        return redirect(url_for("admin_panel_products"))
+
+    # Validar Categoria
+    try:
+        cateogry_id = request.form['txtCategoryId']
+
+        if not product.verify_category(cateogry_id):
+            flash("La Categoria No Existe", "warning")
+            return redirect(url_for("admin_panel_products"))
+    except Exception as e:
+        print(e)
+        flash("Error Validar Categoria", "error")
+        return redirect(url_for("admin_panel_products"))
+
+    # Validar Proveedor
+    try:
+        supplier_id = request.form['txtSupplierId']
+
+        if not product.verify_supplier(supplier_id):
+            flash("El Proveedor No Existe", "warning")
+            return redirect(url_for("admin_panel_products"))
+    except Exception as e:
+        print(e)
+        flash("Error Validar Proveedor", "error")
+        return redirect(url_for("admin_panel_products"))
+
+    # Añadir producto
+    try:
+        db.session.add(product)
+        db.session.commit()
+        flash("Producto Creado", "success")
+        return redirect(url_for("admin_panel_products"))
+
+    except Exception as e:
+        print(e)
+        flash("Error Procesar Producto", "error")
+        return redirect(url_for("admin_panel_products"))
 
 # Definimos un bucle if main para ejecutar la web
 if __name__ == '__main__':

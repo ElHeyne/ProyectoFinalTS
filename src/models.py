@@ -179,3 +179,18 @@ class Products(db.Base):
                                                             self.product_referencial, self.product_limit_stock,
                                                             self.product_active_stock, self.product_warehouse,
                                                             self.product_zone)
+
+    @staticmethod
+    def verify_referencial(referencial):
+        referencial_check = db.session.query(Products).filter_by(product_referencial=referencial).first()
+        return referencial_check is not None
+
+    @staticmethod
+    def verify_category(category_id):
+        category_check = db.session.query(Categories).filter_by(category_id=category_id).first()
+        return category_check is not None
+
+    @staticmethod
+    def verify_supplier(supplier_id):
+        supplier_check = db.session.query(Suppliers).filter_by(supplier_id=supplier_id).first()
+        return supplier_check is not None
