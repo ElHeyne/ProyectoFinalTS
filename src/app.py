@@ -566,6 +566,24 @@ def admin_panel_products_add_product():
         flash("Error Validar Proveedor", "error")
         return redirect(url_for("admin_panel_products"))
 
+    # Validar Stock
+    try:
+        limit_stock = int(request.form['txtProductLimitStock'])
+        product.product_limit_stock = product.verify_limit_stock(limit_stock)
+    except Exception as e:
+        print(e)
+        flash("Error al validar Límite de Stock", "error")
+        return redirect(url_for("admin_panel_products"))
+
+    try:
+        limit_stock = int(request.form['txtProductLimitStock'])
+        active_stock = int(request.form['txtProductActiveStock'])
+        product.product_active_stock = product.verify_active_stock(active_stock, limit_stock)
+    except Exception as e:
+        print(e)
+        flash("Error al validar Stock Activo", "error")
+        return redirect(url_for("admin_panel_products"))
+
     # Añadir producto
     try:
         db.session.add(product)

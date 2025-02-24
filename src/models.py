@@ -182,8 +182,24 @@ class Products(db.Base):
 
     @staticmethod
     def verify_referencial(referencial):
-        referencial_check = db.session.query(Products).filter_by(product_referencial=referencial).first()
+        referencial_check = db.session.query(Products).filter(func.lower(Products.product_referencial) == referencial).first()
         return referencial_check is not None
+
+    @staticmethod
+    def verify_limit_stock(limit_stock):
+        if limit_stock < 1:
+            limit_stock = 1
+
+        return limit_stock
+
+    @staticmethod
+    def verify_active_stock(active_stock, limit_stock):
+        if active_stock > limit_stock:
+            active_stock = limit_stock
+        elif active_stock < 0:
+            active_stock = 1
+
+        return active_stock
 
     @staticmethod
     def verify_category(category_id):

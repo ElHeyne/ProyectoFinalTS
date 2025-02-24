@@ -96,7 +96,7 @@
                                 <td>{{product.product_price}}</td>
                                 <td>{{product.product_selling_price}}</td>
                                 <td>
-                                    {%set beneficio = 100*((product.product_selling_price/product.product_price)-1)%}
+                                    {%set beneficio = 100*((product.product_selling_price/product.product_price)-1)|round(2)%}
                                     {{beneficio}}%
                                 </td>
                                 <td>{{product.product_referencial}}</td>
