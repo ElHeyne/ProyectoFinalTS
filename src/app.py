@@ -211,12 +211,39 @@ def admin_panel_products():
                            registered_suppliers=registered_suppliers)
 
 
+@app.route("/admin-panel/products/confirm-deletion/<int:delete_id>", methods=["POST", "GET"])
+@admin_login_required
+def admin_panel_products_confirm_deletion(delete_id):
+    print("DEBUG - PRODUCT CONFIRM DEL")
+    product = db.session.query(Products).filter_by(product_id=delete_id).first()
+
+    if request.method == "POST":
+        print("DEBUG - PRODUCT CONFIRM POST")
+        if "confirm" in request.form:
+            try:
+                db.session.query(Products).filter_by(product_id=delete_id).delete()
+                db.session.commit()
+                flash(f"Eliminada Categoría {product.product_id} - {product.product_name} - {product.product_referencial}", "success")
+                return redirect(url_for("admin_panel_products"))
+            except Exception as e:
+                print(e)
+                flash("Error Proceso Eliminación Producto", "error")
+                return redirect(url_for("admin_panel_products"))
+        elif "cancel" in request.form:
+            print("DEBUG - CANCELADA PRODUCT DEL")
+            flash("Eliminación Cancelada", "warning")
+            return redirect(url_for("admin_panel_products"))
+
+    return render_template("admin_products_confirm_deletion.html", product=product, is_admin=session["is_admin"])
+
+
 @app.route("/admin-panel/categories")
 @admin_login_required
 def admin_panel_categories():
     registered_categories = db.session.query(Categories).order_by(Categories.category_id)
     return render_template("admin_categories.html", is_admin=session["is_admin"],
                            registered_categories=registered_categories)
+
 
 @app.route("/admin-panel/categories/confirm-deletion/<int:delete_id>", methods=["POST", "GET"])
 @admin_login_required
@@ -529,6 +556,9 @@ def admin_panel_products_add_product():
                            product_active_stock=request.form['txtProductActiveStock'],
                            product_warehouse=request.form['txtProductWarehouse'],
                            product_zone=request.form['txtProductZone'])
+    else:
+        flash("Error de Método", "error")
+        return redirect(url_for("admin_panel_categories"))
 
     # Revisar Referencial Unico
     try:
@@ -594,6 +624,19 @@ def admin_panel_products_add_product():
     except Exception as e:
         print(e)
         flash("Error Procesar Producto", "error")
+        return redirect(url_for("admin_panel_products"))
+
+
+@app.route("/admin-panel/products/delete-product/<int:delete_id>", methods=["POST", "GET"])
+def admin_panel_products_delete_product(delete_id):
+    if request.method == 'POST':
+        if isinstance(delete_id, int):
+            return redirect(url_for("admin_panel_products_confirm_deletion", delete_id=delete_id))
+        else:
+            flash("Error de ID", "error")
+            return redirect(url_for("admin_panel_products"))
+    else:
+        flash("Error de Método", "error")
         return redirect(url_for("admin_panel_products"))
 
 # Definimos un bucle if main para ejecutar la web
