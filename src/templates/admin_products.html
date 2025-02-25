@@ -105,13 +105,13 @@
                                 <td>{{product.product_warehouse}} - {{product.product_zone}}</td>
                                 
                                 <td class="td-option">
-                                    <form action="/admin-panel/products/delete-product/{{ product.product_id }}" method="POST" class="option-subform">
+                                    <form action="/admin-panel/products/delete-product/{{ product.product_id }}" method="POST" class="option-subform flex-container flex-jst-sa">
                                         <button type="submit">
                                             <i class='bx bxs-trash-alt'></i>
                                         </button>
 
-                                        <a id="stock-alert" title="Stock por debajo del 90%" style="{% if product.product_active_stock/product.product_limit_stock > 0.9 %}display: none;{% endif%}">
-                                            <i style="color: var(--warning-yellow)" 
+                                        <a id="stock-alert" title="{% if product.product_active_stock/product.product_limit_stock < 0.9 %}Stock por debajo del limite (90%){% else %}{% endif%}">
+                                            <i style="{% if product.product_active_stock/product.product_limit_stock < 0.9 %}color: var(--warning-yellow);{%else%}color: var(--bgray-5){% endif%}" 
                                             class='bx bx-error'></i>
                                         </a>
                                     </form>
