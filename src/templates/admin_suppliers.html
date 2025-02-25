@@ -118,6 +118,7 @@
             <h2>Añadir Proveedor</h2>
             <form action="/admin-panel/suppliers/add-supplier" method="POST" class="table-form-type-1">
                 <fieldset class="flex-container">
+                    <legend>Información</legend>
                     <section>
                         <input type="text" id="name_input" placeholder="Proveedor" name="txtSupplierName" required autocomplete="off">
                     </section>
@@ -131,13 +132,16 @@
                         <input type="text" id="direction_input" placeholder="Dirección Comercial" name="txtSupplierAddress" required autocomplete="off">
                     </section>
                     <section>
+                        <input type="text" id="country_input" placeholder="País" name="txtSupplierCountry" required autocomplete="off">
+                    </section>
+                </fieldset>
+                <fieldset class="flex-container">
+                    <legend>Fiscalidad</legend>
+                    <section>
                         <input type="number" id="discount_input" placeholder="Descuento %" name="txtSupplierDiscount" required autocomplete="off">
                     </section>
                     <section>
                         <input type="number" id="iva_input" placeholder="IVA" name="txtSupplierIva" required autocomplete="off">
-                    </section>
-                    <section>
-                        <input type="text" id="country_input" placeholder="País" name="txtSupplierCountry" required autocomplete="off">
                     </section>
                 </fieldset>
                 <fieldset>

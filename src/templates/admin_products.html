@@ -131,6 +131,7 @@
             <h2>Añadir Producto</h2>
             <form action="/admin-panel/products/add-product" method="POST" class="table-form-type-1">
                 <fieldset class="flex-container">
+                    <legend>Información</legend>
                     <section>
                         <input type="text" id="name_input" placeholder="Producto" name="txtProductName" required autocomplete="off">
                     </section>
@@ -151,20 +152,29 @@
                         </select>
                     </section>
                     <section>
+                        <input type="text" id="referencial_input" placeholder="Referencial" name="txtProductReferencial" required autocomplete="off">
+                    </section>
+                </fieldset>
+                <fieldset class="flex-container">
+                    <legend>Precios</legend>
+                    <section>
                         <input type="number" id="price_input" placeholder="Precio de Compra" name="txtProductPrice" required autocomplete="off" min="0" step="any">
                     </section>
                     <section>
                         <input type="number" id="selling_price_input" placeholder="Precio de Venta" name="txtProductSellingPrice" required autocomplete="off" min="0" step="any">
                     </section>
-                    <section>
-                        <input type="text" id="referencial_input" placeholder="Referencial" name="txtProductReferencial" required autocomplete="off">
-                    </section>
+                </fieldset>
+                <fieldset class="flex-container">
+                    <legend>Stock</legend>
                     <section>
                         <input type="number" id="limit_stock_input" placeholder="Stock Máximo" name="txtProductLimitStock" required autocomplete="off" min="1" step="0">
                     </section>
                     <section>
                         <input type="number" id="active_stock_input" placeholder="Stock Activo" name="txtProductActiveStock" required autocomplete="off" min="1" step="0">
                     </section>
+                </fieldset>
+                <fieldset class="flex-container">
+                    <legend>Almacén</legend>
                     <section>
                         <input type="text" id="warehouse_input" placeholder="Almacen" name="txtProductWarehouse" required autocomplete="off">
                     </section>

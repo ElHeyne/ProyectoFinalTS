@@ -110,12 +110,16 @@
             <h2>Añadir Categoria</h2>
             <form action="/admin-panel/categories/add-category" method="POST" class="table-form-type-1">
                 <fieldset class="flex-container">
+                    <legend>Información</legend>
                     <section>
                         <input type="text" id="name_input" placeholder="Categoría" name="txtCategoryName" required autocomplete="off">
                     </section>
                     <section>
                         <input type="text" id="referencial_input" placeholder="Referencial" name="txtCategoryReferencial" required autocomplete="off">
                     </section>
+                </fieldset>
+                <fieldset class="flex-container">
+                    <legend>Almacén</legend>
                     <section>
                         <input type="text" id="zone_input" placeholder="Zona" name="txtCategoryZone" required autocomplete="off">
                     </section>
