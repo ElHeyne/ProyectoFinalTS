@@ -83,6 +83,64 @@
         color: var(--delete-red)
     }
 
+.table-form-type-2{
+    margin: 10px 20px;
+    display: flex;
+    flex-direction: column;
+    min-width: 670px;
+}
+
+    .table-form-type-2 fieldset{
+        flex-wrap: wrap;
+        border: none;
+        outline: none;
+        margin: 0 0 10px 0;
+    }
+
+    .table-form-type-2 input,
+    .table-form-type-2 select,
+    .table-form-type-2 textarea{
+        height: 38px;
+        background-color: var(--bgray-2);
+        border: none;
+        outline: none;
+        padding: 10px 8px;
+        margin: 0 10px 10px 0;
+        transition: 0.3s;
+    }
+
+    .table-form-type-2 textarea{
+        height: 76px;
+        width: 300%;
+    }
+
+    .table-form-type-2 input::placeholder,
+    .table-form-type-2 select:invalid{
+        color: var(--bgray-5)
+    }
+
+    .table-form-type-2 input:focus,
+    .table-form-type-2 textarea:focus{
+        background-color: var(--bgray-1);
+    }
+
+    .table-form-type-2 button{
+        color: var(--main-orange);
+        height: 38px;
+        min-width: 120px;
+        background-color: var(--bgray-2);
+        border: none;
+        outline: none;
+        padding: 10px 8px;
+        margin: 0 10px 0 0;
+        transition: 0.3s;
+    }
+
+    .table-form-type-2 button:hover{
+        background-color: var(--bgray-1);
+        font-weight: 800;
+    }
+
 .general-form-message{
     font-size: 14px;
     font-weight: 500;

@@ -19,6 +19,15 @@
     scroll-behavior: smooth;
 }
 
+.overflow-x{
+    flex: 1 1 auto;
+    overflow-x: auto;
+    width: fit-content;
+    
+    scrollbar-color: var(--main-orange) transparent;
+    scroll-behavior: smooth;
+}
+
 .no-margin{
     margin: 0;
 }

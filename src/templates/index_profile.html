@@ -53,15 +53,15 @@
             <section class="container-type-1 flex-container flex-column no-margin">
                 <h2>Datos Personales</h2>
                 <section class="container-type-2 overflow">
-                    <form class="">
+                    <form class="table-form-type-2">
                         <fieldset>
                             <legend>Nombre de Usuario</legend>
-                            <input type="text" placeholder="{{active_user.user_name}}">
+                            <input type="text" value="{{active_user.user_name}}">
                         </fieldset>
 
                         <fieldset>
                             <legend>Correo Electrónico</legend>
-                            <input type="text" placeholder="{{active_user.user_email}}">
+                            <input type="text" value="{{active_user.user_email}}">
                         </fieldset>
                     </form>
                 </section>
@@ -69,18 +69,23 @@
 
             <section class="container-type-1 flex-container flex-column no-margin">
                 <h2>Información de la Cuenta</h2>
-                <section class="container-type-2 overflow">
-                    <section>
-                        <p>ID: {{active_user.user_id}}</p>
-                    </section>
+                <section class="container-type-1 overflow-x">
+                    <table class="table-type-2 no-table-margin">
+                        <tr>
+                            <th>ID</th>
+                            <td>{{active_user.user_id}}</td>
+                        </tr>
 
-                    <section>
-                        <p>Role: {{user_role.role_name}}</p>
-                    </section>
+                        <tr>
+                            <th>Role</th>
+                            <td>{{user_role.role_name}}</td>
+                        </tr>
 
-                    <section>
-                        <p>Account Creation Date: {{active_user.user_register_date}}</p>
-                    </section>
+                        <tr>
+                            <th>Account Register Date</th>
+                            <td>{{active_user.user_register_date}}</td>
+                        </tr>
+                    </table>
                 </section>
             </section>
         </article>
