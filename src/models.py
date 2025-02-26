@@ -150,9 +150,10 @@ class Products(db.Base):
     product_warehouse = Column(String(255), nullable=False,
                                server_default="unidentified_warehouse")  # Es una ubicacion como calle o codigo.
     product_zone = Column(String(255), nullable=False, server_default="unidentified_zone")
+    product_description = Column(String(1255), nullable=False, server_default="unidentified_description")
 
     def __init__(self, supplier_id, category_id, product_name, product_price, product_selling_price, product_referencial, product_limit_stock,
-                 product_active_stock, product_warehouse, product_zone):
+                 product_active_stock, product_warehouse, product_zone, product_description):
         self.supplier_id = supplier_id
         self.category_id = category_id
         self.product_name = product_name
@@ -163,22 +164,23 @@ class Products(db.Base):
         self.product_active_stock = product_active_stock
         self.product_warehouse = product_warehouse
         self.product_zone = product_zone
+        self.product_description = product_description
 
     def __repr__(self):
-        return "Product {}:{},{},{},{},{},{},{},{},{},{}".format(self.product_id, self.supplier_id, self.category_id,
+        return "Product {}:{},{},{},{},{},{},{},{},{},{},{}".format(self.product_id, self.supplier_id, self.category_id,
                                                             self.product_name, self.product_price,
                                                             self.product_selling_price,
                                                             self.product_referencial, self.product_limit_stock,
                                                             self.product_active_stock, self.product_warehouse,
-                                                            self.product_zone)
+                                                            self.product_zone, self.product_description)
 
     def __str__(self):
-        return "Product {}:{},{},{},{},{},{},{},{},{},{}".format(self.product_id, self.supplier_id, self.category_id,
+        return "Product {}:{},{},{},{},{},{},{},{},{},{},{}".format(self.product_id, self.supplier_id, self.category_id,
                                                             self.product_name, self.product_price,
                                                             self.product_selling_price,
                                                             self.product_referencial, self.product_limit_stock,
                                                             self.product_active_stock, self.product_warehouse,
-                                                            self.product_zone)
+                                                            self.product_zone, self.product_description)
 
     @staticmethod
     def verify_referencial(referencial):

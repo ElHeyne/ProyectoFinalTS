@@ -20,7 +20,8 @@
     }
 
     .table-form-type-1 input,
-    .table-form-type-1 select{
+    .table-form-type-1 select,
+    .table-form-type-1 textarea{
         height: 38px;
         background-color: var(--bgray-2);
         border: none;
@@ -30,6 +31,11 @@
         transition: 0.3s;
     }
 
+    .table-form-type-1 textarea{
+        height: 76px;
+        width: 300%;
+    }
+
     .table-form-type-1 input::placeholder,
     .table-form-type-1 select:invalid{
         color: var(--bgray-5)
@@ -37,7 +43,9 @@
 
     .table-form-type-1 input:hover,
     .table-form-type-1 select:hover,
-    .table-form-type-1 input:focus{
+    .table-form-type-1 textarea:hover,
+    .table-form-type-1 input:focus,
+    .table-form-type-1 textarea:focus{
         background-color: var(--bgray-1);
     }
 

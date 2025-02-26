@@ -88,7 +88,7 @@
                         <tbody>
                             {% if registered_products %}
                             {% for product in registered_products %}
-                            <tr>
+                            <tr title="Descripción: {{product.product_description}}">
                                 {% set beneficio = (100 * ((product.product_selling_price / product.product_price) - 1) * 100 // 1) / 100  %}
                                 <td>{{product.product_id}}</td>
                                 <td>{{product.product_name}}</td>
@@ -181,6 +181,27 @@
                     <section>
                         <input type="text" id="zone_input" placeholder="Zona" name="txtProductZone" required autocomplete="off">
                     </section>
+                </fieldset>
+                <fieldset class="flex-container">
+                    <fieldset>
+                        <legend id="counter">Descripción [0 / 1255]</legend>
+                        <section>
+                            <textarea id="description_input" placeholder="Descripción (Máx. 1255 caracteres)" maxlength="1255" name="txtProductDescription" required autocomplete="off"></textarea>
+                        </section>
+                    </fieldset>
+
+                    <script>
+                    document.getElementById("description_input").addEventListener("input", function () {
+                        let max = 1255;
+                        let actual = this.value.length;
+
+                        if (actual > max) {
+                            this.value = this.value.substring(0, max);
+                        }
+
+                        document.getElementById("counter").textContent = `Descripción [${actual} / ${max}]`;
+                    });
+                    </script>
                 </fieldset>
                 <fieldset>
                     <section class="flex-container">

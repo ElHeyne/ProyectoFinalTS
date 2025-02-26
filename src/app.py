@@ -198,7 +198,8 @@ def admin_panel_products():
         Products.product_limit_stock,
         Products.product_active_stock,
         Products.product_warehouse,
-        Products.product_zone
+        Products.product_zone,
+        Products.product_description
     ).join(Suppliers, Products.supplier_id == Suppliers.supplier_id).join(Categories, Products.category_id == Categories.category_id)
 
     registered_categories = db.session.query(Categories).order_by(Categories.category_id)
@@ -555,7 +556,8 @@ def admin_panel_products_add_product():
                            product_limit_stock=request.form['txtProductLimitStock'],
                            product_active_stock=request.form['txtProductActiveStock'],
                            product_warehouse=request.form['txtProductWarehouse'],
-                           product_zone=request.form['txtProductZone'])
+                           product_zone=request.form['txtProductZone'],
+                           product_description=request.form['txtProductDescription'])
     else:
         flash("Error de Método", "error")
         return redirect(url_for("admin_panel_categories"))
