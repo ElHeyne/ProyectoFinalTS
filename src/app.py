@@ -90,7 +90,9 @@ def register():
 @app.route("/")
 @login_required
 def home():
-    return render_template("index.html", is_admin=session["is_admin"])
+    user_name = session['user_name']
+    return render_template("index.html", is_admin=session["is_admin"],
+                           user_name=user_name)
 
 
 @app.route("/profile")
@@ -219,11 +221,9 @@ def admin_panel_products():
 @app.route("/admin-panel/products/confirm-deletion/<int:delete_id>", methods=["POST", "GET"])
 @admin_login_required
 def admin_panel_products_confirm_deletion(delete_id):
-    print("DEBUG - PRODUCT CONFIRM DEL")
     product = db.session.query(Products).filter_by(product_id=delete_id).first()
 
     if request.method == "POST":
-        print("DEBUG - PRODUCT CONFIRM POST")
         if "confirm" in request.form:
             try:
                 db.session.query(Products).filter_by(product_id=delete_id).delete()
@@ -235,7 +235,6 @@ def admin_panel_products_confirm_deletion(delete_id):
                 flash("Error Proceso Eliminación Producto", "error")
                 return redirect(url_for("admin_panel_products"))
         elif "cancel" in request.form:
-            print("DEBUG - CANCELADA PRODUCT DEL")
             flash("Eliminación Cancelada", "warning")
             return redirect(url_for("admin_panel_products"))
 
@@ -253,11 +252,9 @@ def admin_panel_categories():
 @app.route("/admin-panel/categories/confirm-deletion/<int:delete_id>", methods=["POST", "GET"])
 @admin_login_required
 def admin_panel_categories_confirm_deletion(delete_id):
-    print("DEBUG - CATEGORY CONFIRM DEL")
     category = db.session.query(Categories).filter_by(category_id=delete_id).first()
 
     if request.method == "POST":
-        print("DEBUG - CATEGORY CONFIRM POST")
         if "confirm" in request.form:
             try:
                 db.session.query(Categories).filter_by(category_id=delete_id).delete()
@@ -269,7 +266,6 @@ def admin_panel_categories_confirm_deletion(delete_id):
                 flash("Error Proceso Eliminación Categoría", "error")
                 return redirect(url_for("admin_panel_categories"))
         elif "cancel" in request.form:
-            print("DEBUG - CANCELADA CATEGORIA DEL")
             flash("Eliminación Cancelada", "warning")
             return redirect(url_for("admin_panel_categories"))
 
@@ -288,6 +284,7 @@ def acceso_login():
 
         # Comprobación usuario activo y contraseña correcta
         if user and user.verify_password(_password):
+            session['user_name'] = user.user_name
             session['user_id'] = user.user_id
             session['role_id'] = user.role_id
             session['login'] = True
@@ -354,6 +351,7 @@ def acceso_registro():
 
 @app.route("/cerrar-login", methods=["POST", "GET"])
 def cerrar_login():
+    session.pop('user_name', None)
     session.pop('user_id', None)
     session.pop('role_id', None)
     session.pop('is_admin', False)
