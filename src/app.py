@@ -4,7 +4,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_session import Session
 from functools import wraps
-from models import Users, Suppliers, Categories, Products
+from models import Users, Suppliers, Categories, Products, Roles
 from sqlalchemy import desc, label, func
 import db
 import time
@@ -98,9 +98,17 @@ def home():
 @app.route("/profile")
 @login_required
 def profile():
+    user_id = session['user_id']
+    role_id = session['role_id']
+
     user_name = session['user_name']
+
+    user_role = db.session.query(Roles).filter_by(role_id=role_id).first()
+    user = db.session.query(Users).filter_by(user_id=user_id).first()
     return render_template("index_profile.html", is_admin=session["is_admin"],
-                           user_name=user_name)
+                           user_name=user_name,
+                           user_role=user_role,
+                           active_user=user)
 
 
 @app.route("/products")
