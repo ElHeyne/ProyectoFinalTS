@@ -98,7 +98,9 @@ def home():
 @app.route("/profile")
 @login_required
 def profile():
-    return render_template("index_profile.html", is_admin=session["is_admin"])
+    user_name = session['user_name']
+    return render_template("index_profile.html", is_admin=session["is_admin"],
+                           user_name=user_name)
 
 
 @app.route("/products")
