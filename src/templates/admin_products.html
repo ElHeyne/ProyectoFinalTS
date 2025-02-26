@@ -89,19 +89,20 @@
                             {% if registered_products %}
                             {% for product in registered_products %}
                             <tr title="Descripción: {{product.product_description}}">
-                                {% set beneficio = (100 * ((product.product_selling_price / product.product_price) - 1) * 100 // 1) / 100  %}
                                 <td>{{product.product_id}}</td>
                                 <td>{{product.product_name}}</td>
                                 <td>{{product.category_name}}</td>
                                 <td>{{product.supplier_name}}</td>
                                 <td>{{product.product_price}}</td>
                                 <td>{{product.product_selling_price}}</td>
-                                <td id="product_profit" style="color: {% if beneficio > 0 %}var(--success-green){% else %}var(--error-red){% endif %}">
-                                    {{beneficio}}%
+                                <td id="product_profit" style="color: {% if product.product_profit > 0 %}var(--success-green){% else %}var(--error-red){% endif %}">
+                                    {{product.product_profit}}%
                                 </td>
 
                                 <td>{{product.product_referencial}}</td>
-                                <td id="product-stock">{{product.product_limit_stock}}/{{product.product_active_stock}}</td>
+                                <td id="product-stock"
+                                    style="{% if product.product_active_stock/product.product_limit_stock < 0.9 %}color: var(--warning-yellow){% endif%}">
+                                    {{product.product_limit_stock}}/{{product.product_active_stock}}</td>
                                 <td>{{product.product_warehouse}} - {{product.product_zone}}</td>
                                 
                                 <td class="td-option">

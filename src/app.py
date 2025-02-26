@@ -5,7 +5,7 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 from flask_session import Session
 from functools import wraps
 from models import Users, Suppliers, Categories, Products
-from sqlalchemy import desc
+from sqlalchemy import desc, label, func
 import db
 import time
 
@@ -199,7 +199,11 @@ def admin_panel_products():
         Products.product_active_stock,
         Products.product_warehouse,
         Products.product_zone,
-        Products.product_description
+        Products.product_description,
+        label(
+            "product_profit",
+            func.round((100 * ((Products.product_selling_price / Products.product_price) - 1)), 2)
+        )
     ).join(Suppliers, Products.supplier_id == Suppliers.supplier_id).join(Categories, Products.category_id == Categories.category_id)
 
     registered_categories = db.session.query(Categories).order_by(Categories.category_id)
