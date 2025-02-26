@@ -34,17 +34,49 @@
     --pale-orange: #fd935d;
     --dark-orange: #501b00;
 
+    --main-orange-t05: rgba(253, 117, 48, 0.5);
+    --pale-orange-t05: rgba(253, 147, 93, 0.5);
+    --dark-orange-t05: rgba(80, 27, 0, 0.5);
+
+    --main-orange-t08: rgba(253, 117, 48, 0.8);
+    --pale-orange-t08: rgba(253, 147, 93, 0.8);
+    --dark-orange-t08: rgba(80, 27, 0, 0.8);    
+
     --main-green: #30fd30;
     --pale-green: #3dff57;
     --dark-green: #005004;
+
+    --main-green-t05: rgba(48, 253, 48, 0.5);
+    --pale-green-t05: rgba(61, 255, 87, 0.5);
+    --dark-green-t05: rgba(0, 80, 4, 0.5);
+
+    --main-green-t08: rgba(48, 253, 48, 0.8);
+    --pale-green-t08: rgba(61, 255, 87, 0.8);
+    --dark-green-t08: rgba(0, 80, 4, 0.8);
 
     --main-blue: #4632fc;
     --pale-blue: #5c51ff;
     --dark-blue: #0c0050;
 
+    --main-blue-t05: rgba(70, 50, 252, 0.5);
+    --pale-blue-t05: rgba(92, 81, 255, 0.5);
+    --dark-blue-t05: rgba(12, 0, 80, 0.5);
+
+    --main-blue-t08: rgba(70, 50, 252, 0.8);
+    --pale-blue-t08: rgba(92, 81, 255, 0.8);
+    --dark-blue-t08: rgba(12, 0, 80, 0.8);
+
     --main-magenta: #eb28fd;
     --pale-magenta: #ff51f6;
     --dark-magenta: #470050;
+
+    --main-magenta-t05: rgba(235, 40, 253, 0.5);
+    --pale-magenta-t05: rgba(255, 81, 246, 0.5);
+    --dark-magenta-t05: rgba(71, 0, 80, 0.5);
+
+    --main-magenta-t08: rgba(235, 40, 253, 0.8);
+    --pale-magenta-t08: rgba(255, 81, 246, 0.8);
+    --dark-magenta-t08: rgba(71, 0, 80, 0.8);
 
     --highlight-red: rgb(239 68 68);
 }
