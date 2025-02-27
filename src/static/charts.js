@@ -42,7 +42,7 @@ function get_most_popular_suppliers(most_popular_suppliers_chart_labels, most_po
     const color3 = rootStyles.getPropertyValue('--dark-' + chart_color);
 
     new Chart(most_popular_suppliers_chart, {
-        type: 'pie',
+        type: 'doughnut',
         data: {
             labels: most_popular_suppliers_chart_labels,
             datasets: [{
@@ -73,7 +73,7 @@ function get_most_popular_categories(most_popular_categories_chart_labels, most_
     const color3 = rootStyles.getPropertyValue('--dark-' + chart_color);
 
     new Chart(most_popular_categories_chart, {
-        type: 'pie',
+        type: 'doughnut',
         data: {
             labels: most_popular_categories_chart_labels,
             datasets: [{
