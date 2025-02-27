@@ -30,6 +30,14 @@
         border-bottom: 2px solid var(--bgray-3);
     }
 
+    .table-type-1 tbody #description {
+        border-bottom: 6px solid var(--bgray-3);
+    }
+
+    .table-type-1 tbody #description{
+        color: var(--bgray-5);
+    }
+
     .table-type-1.alternate tbody tr:nth-of-type(even) {
         background-color: var(--bgray-2);
     }
@@ -70,6 +78,10 @@
 
     .table-type-1 thead th {
         padding: 12px 15px;
+    }
+
+    .table-type-1 tbody #description {
+        padding: 10px 16px 20px;
     }
 
 

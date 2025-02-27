@@ -16,16 +16,26 @@
     <link rel="stylesheet" href="/static/fonts.css">
     <link rel="stylesheet" href="/static/forms.css">
 
+    <!--JS Scripts-->
+    <script src="/static/charts.js"></script>
+
     <!--External Links-->
 
     <!--Lexend | Google Fonts-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
+
     <!--JetBrains Mono | Google Fonts-->
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+
+    <!--Node JS | ChartsJS-->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="general-body">
+    <script>
+        const rootStyles = getComputedStyle(document.documentElement);
+    </script>
     <header class="header">
         <span>
             <a href="/" class="home">Home</a>
@@ -46,6 +56,63 @@
 
     <section class="container-type-1">
         <h1>Productos</h1>
+    </section>
+
+    <section class="container-type-1 flex-container flex-jst-sb">
+        <article class="container-type-1 no-margin full-width">
+            <section class="container-type-1 flex-container flex-column no-margin">
+                <h2>Lista de Productos</h2>
+                <section class="container-type-2 overflow">
+                    <table class="table-type-1 no-table-margin table-sticky-header alternate hover">
+                        <thead>
+                            <tr>
+                                <th class="th-title">Nombre</th>
+                                <th class="th-title">Categoría</th>
+                                <th class="th-title">Precio Venta</th>
+                                <th class="th-title">Stock</th>
+                                <th class="th-title">Proveedor</th>
+                                <th class="th-title">Referencial</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if public_products %}
+                            {% for product in public_products %}
+                            <tr>
+                                <td>{{product.product_name}}</td>
+                                <td>{{product.category_name}}</td>
+                                <td>{{product.product_selling_price}}</td>
+                                <td>{{product.product_active_stock}}</td>
+                                <td>{{product.supplier_name}}</td>
+                                <td>{{product.product_referencial}}</td>
+                            </tr>
+                            <tr>
+                                <td id="description" colspan="6">{{product.product_description}}</td>
+                            </tr>
+                            {% endfor %}
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </section>
+            </section>
+        </article>
+
+        <article class="container-type-1 no-margin full-width">
+            <section class="container-type-1 flex-container flex-column no-margin">
+                <h2>Productos Más Vendidos</h2>
+            </section>
+            <section class="container-type-1 flex-container flex-column no-margin">
+
+                <canvas id="most_popular_suppliers_chart" style="width: calc(1.28*height); max-height: 450px; max-width: 80%">
+                    <p>La gráfica no se pudo cargar...</p>
+                </canvas>
+
+                <script>
+                    const productos_mas_demandados_labels = [{% for producto in productos_mas_demandados %}"{{ producto.product_name }}"{% if not loop.last %}, {% endif %}{% endfor %}];
+                    const productos_mas_demandados_dataValues = [{% for producto in productos_mas_demandados %}{{ producto.ventas }}{% if not loop.last %}, {% endif %}{% endfor %}];
+                    get_most_popular_suppliers(productos_mas_demandados_labels, productos_mas_demandados_dataValues, 'orange-t08');
+                </script>
+            </section>
+        </article>
     </section>
 </body>
 </html>

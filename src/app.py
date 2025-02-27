@@ -114,7 +114,32 @@ def profile():
 @app.route("/products")
 @login_required
 def products():
-    return render_template("index_products.html", is_admin=session["is_admin"])
+    public_products = db.session.query(
+        Suppliers.supplier_name,
+        Categories.category_name,
+        Products.product_name,
+        Products.product_selling_price,
+        Products.product_referencial,
+        Products.product_limit_stock,
+        Products.product_active_stock,
+        Products.product_description,
+    ).join(Suppliers, Products.supplier_id == Suppliers.supplier_id).join(Categories, Products.category_id == Categories.category_id)
+
+    productos_mas_demandados = db.session.query(
+        Products.product_name,
+        label(
+            "ventas",
+            (Products.product_limit_stock - Products.product_active_stock)
+        )
+    ).where(
+        (Products.product_limit_stock - Products.product_active_stock) > (db.session.query((func.avg(label("ventas",(Products.product_limit_stock - Products.product_active_stock))))/5))
+    ).order_by(
+        label("ventas", (Products.product_limit_stock - Products.product_active_stock)).desc()
+    ).limit(10)
+
+    return render_template("index_products.html", is_admin=session["is_admin"],
+                           public_products=public_products,
+                           productos_mas_demandados=productos_mas_demandados)
 
 
 @app.route("/statistics")
@@ -174,6 +199,14 @@ def statistics():
 @admin_login_required
 def admin_panel():
     return render_template("admin.html", is_admin=session["is_admin"])
+
+    # TODO Estadistica de Proveedores con mejor beneficio
+
+    # TODO Estadistica de Categorias mas rentables
+
+    # TODO Estadistica de Proveedores con productos en -90% stock
+
+    # TODO Estadistica de Proveedores por Categoria
 
 
 @app.route("/admin-panel/users")
