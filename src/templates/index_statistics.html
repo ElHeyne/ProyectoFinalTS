@@ -16,16 +16,26 @@
     <link rel="stylesheet" href="/static/fonts.css">
     <link rel="stylesheet" href="/static/forms.css">
 
+    <!--JS Scripts-->
+    <script src="/static/charts.js"></script>
+
     <!--External Links-->
 
     <!--Lexend | Google Fonts-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
+
     <!--JetBrains Mono | Google Fonts-->
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+
+    <!--Node JS | ChartsJS-->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="general-body">
+    <script>
+        const rootStyles = getComputedStyle(document.documentElement);
+    </script>
     <header class="header">
         <span>
             <a href="/" class="home">Home</a>
@@ -47,5 +57,67 @@
     <section class="container-type-1">
         <h1>Estadísticas</h1>
     </section>
+
+    <section class="container-type-1 flex-container flex-column flex-jst-sb">
+        <article class="container-type-1 no-margin full-width">
+            <section class="container-type-1 flex-container flex-column no-margin">
+                <h2>Productos Más Demandados</h2>
+            </section>
+            <section class="container-type-1 flex-container flex-column no-margin">
+
+                <canvas id="most_demanded_products_chart" style="width: calc(1.28*height); max-height: 450px; max-width: 60vw">
+                    <p>La gráfica no se pudo cargar...</p>
+                </canvas>
+
+                <script>
+                    const productos_mas_demandados_labels = [{% for producto in productos_mas_demandados %}"{{ producto.product_name }}"{% if not loop.last %}, {% endif %}{% endfor %}];
+                    const productos_mas_demandados_dataValues = [{% for producto in productos_mas_demandados %}{{ producto.ventas }}{% if not loop.last %}, {% endif %}{% endfor %}];
+                    get_most_demanded_products(productos_mas_demandados_labels, productos_mas_demandados_dataValues, 'orange-t08');
+                </script>
+            </section>            
+        </article>
+
+        <br>
+
+        <section class="container-type-1 flex-container flex-jst-sb">
+            <article class="container-type-1 no-margin full-width">
+                <section class="container-type-1 flex-container flex-column no-margin">
+                    <h2>Proveedores Más Populares</h2>
+                </section>
+                <section class="container-type-1 flex-container flex-column no-margin">
+
+                    <canvas id="most_popular_suppliers_chart" style="width: calc(1.28*height); max-height: 450px; max-width: 80%">
+                        <p>La gráfica no se pudo cargar...</p>
+                    </canvas>
+
+                    <script>
+                        const proveedores_mas_populares_labels = [{% for proveedor in proveedores_mas_populares %}"{{ proveedor.supplier_name }}"{% if not loop.last %}, {% endif %}{% endfor %}];
+                        const proveedores_mas_populares_dataValues = [{% for proveedor in proveedores_mas_populares %}{{ proveedor.productos }}{% if not loop.last %}, {% endif %}{% endfor %}];
+                        get_most_popular_suppliers(proveedores_mas_populares_labels, proveedores_mas_populares_dataValues, 'green-t08');
+                    </script>
+                </section>
+            </article>
+
+            <article class="container-type-1 no-margin full-width">
+                <section class="container-type-1 flex-container flex-column no-margin">
+                    <h2>Categorias Más Populares</h2>
+                </section>
+                <section class="container-type-1 flex-container flex-column no-margin">
+
+                    <canvas id="most_popular_categories_chart" style="width: calc(1.28*height); max-height: 450px; max-width: 80%">
+                        <p>La gráfica no se pudo cargar...</p>
+                    </canvas>
+
+                    <script>
+                        const categorias_mas_populares_labels = [{% for categoria in categorias_mas_populares %}"{{ categoria.category_name }}"{% if not loop.last %}, {% endif %}{% endfor %}];
+                        const categorias_mas_populares_dataValues = [{% for categoria in categorias_mas_populares %}{{ categoria.productos }}{% if not loop.last %}, {% endif %}{% endfor %}];
+                        get_most_popular_categories(categorias_mas_populares_labels, categorias_mas_populares_dataValues, 'magenta-t08');
+                    </script>
+                </section>
+            </article>
+        </section>
+        
+    </section>
+    
 </body>
 </html>

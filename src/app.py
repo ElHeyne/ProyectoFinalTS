@@ -120,7 +120,51 @@ def products():
 @app.route("/statistics")
 @login_required
 def statistics():
-    return render_template("index_statistics.html", is_admin=session["is_admin"])
+    # Estadistica de productos con mas ventas
+    productos_mas_demandados = db.session.query(
+        Products.product_name,
+        label(
+            "ventas",
+            (Products.product_limit_stock - Products.product_active_stock)
+        )
+    ).order_by(
+        label("ventas", (Products.product_limit_stock - Products.product_active_stock)).desc()
+    ).limit(10)
+
+    # Estadistica de proveedores con mas productos
+    proveedores_mas_populares = db.session.query(
+        Suppliers.supplier_name,
+        label(
+            "productos",
+            func.count(Products.product_name)
+        )
+    ).join(
+        Products, Products.supplier_id == Suppliers.supplier_id
+    ).order_by(
+        label("productos", func.count(Products.product_name)).desc()
+    ).group_by(
+        Suppliers.supplier_name
+    ).limit(10)
+
+    # Estadistica de categorias con mas productos
+    categorias_mas_populares = db.session.query(
+        Categories.category_name,
+        label(
+            "productos",
+            func.count(Products.product_name)
+        )
+    ).join(
+        Products, Products.category_id == Categories.category_id
+    ).order_by(
+        label("productos", func.count(Products.product_name)).desc()
+    ).group_by(
+        Categories.category_name
+    ).limit(10)
+
+    return render_template("index_statistics.html", is_admin=session["is_admin"],
+                           productos_mas_demandados=productos_mas_demandados,
+                           proveedores_mas_populares=proveedores_mas_populares,
+                           categorias_mas_populares=categorias_mas_populares)
 
 
 # RUTAS ADMINISTRADOR
