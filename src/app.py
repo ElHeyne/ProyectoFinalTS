@@ -321,14 +321,6 @@ def admin_panel():
                            categories_without_products=categories_without_products,
                            most_discounted_suppliers=most_discounted_suppliers)
 
-    # TODO Estadistica de Proveedores con mejor beneficio
-
-    # TODO Estadistica de Categorias mas rentables
-
-    # TODO Estadistica de Proveedores con productos en -90% stock
-
-    # TODO Estadistica de Proveedores por Categoria
-
 
 @app.route("/admin-panel/users")
 @admin_login_required
