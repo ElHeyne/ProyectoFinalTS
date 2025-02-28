@@ -45,6 +45,18 @@
     width: auto;
 }
 
+.min-height-fit{
+    min-height: fit-content;
+}
+
+.min-height-100{
+    min-height: 100px;
+}
+
+.min-height-150{
+    min-height: 150px;
+}
+
 .flex-container{
     display: flex;
 }
