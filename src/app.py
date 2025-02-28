@@ -125,7 +125,7 @@ def products():
         Products.product_description,
     ).join(Suppliers, Products.supplier_id == Suppliers.supplier_id).join(Categories, Products.category_id == Categories.category_id)
 
-    productos_mas_demandados = db.session.query(
+    most_demanded_products = db.session.query(
         Products.product_name,
         label(
             "ventas",
@@ -139,14 +139,14 @@ def products():
 
     return render_template("index_products.html", is_admin=session["is_admin"],
                            public_products=public_products,
-                           productos_mas_demandados=productos_mas_demandados)
+                           most_demanded_products=most_demanded_products)
 
 
 @app.route("/statistics")
 @login_required
 def statistics():
     # Estadistica de productos con mas ventas
-    productos_mas_demandados = db.session.query(
+    most_demanded_products = db.session.query(
         Products.product_name,
         label(
             "ventas",
@@ -157,7 +157,7 @@ def statistics():
     ).limit(10)
 
     # Estadistica de proveedores con mas productos
-    proveedores_mas_populares = db.session.query(
+    most_popular_suppliers = db.session.query(
         Suppliers.supplier_name,
         label(
             "productos",
@@ -172,7 +172,7 @@ def statistics():
     ).limit(10)
 
     # Estadistica de categorias con mas productos
-    categorias_mas_populares = db.session.query(
+    most_popular_categories = db.session.query(
         Categories.category_name,
         label(
             "productos",
@@ -187,9 +187,9 @@ def statistics():
     ).limit(10) # TODO Ajustar altura de lineas
 
     return render_template("index_statistics.html", is_admin=session["is_admin"],
-                           productos_mas_demandados=productos_mas_demandados,
-                           proveedores_mas_populares=proveedores_mas_populares,
-                           categorias_mas_populares=categorias_mas_populares) # TODO Cambiar a variables en ingles
+                           most_demanded_products=most_demanded_products,
+                           most_popular_suppliers=most_popular_suppliers,
+                           most_popular_categories=most_popular_categories)
 
 
 # RUTAS ADMINISTRADOR

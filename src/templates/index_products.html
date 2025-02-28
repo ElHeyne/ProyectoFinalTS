@@ -107,8 +107,8 @@
                 </canvas>
 
                 <script>
-                    const productos_mas_demandados_labels = [{% for producto in productos_mas_demandados %}"{{ producto.product_name }}"{% if not loop.last %}, {% endif %}{% endfor %}];
-                    const productos_mas_demandados_dataValues = [{% for producto in productos_mas_demandados %}{{ producto.ventas }}{% if not loop.last %}, {% endif %}{% endfor %}];
+                    const productos_mas_demandados_labels = [{% for producto in most_demanded_products %}"{{ producto.product_name }}"{% if not loop.last %}, {% endif %}{% endfor %}];
+                    const productos_mas_demandados_dataValues = [{% for producto in most_demanded_products %}{{ producto.ventas }}{% if not loop.last %}, {% endif %}{% endfor %}];
                     get_most_popular_suppliers(productos_mas_demandados_labels, productos_mas_demandados_dataValues, 'orange-t08');
                 </script>
             </section>

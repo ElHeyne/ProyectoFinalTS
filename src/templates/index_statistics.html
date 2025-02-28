@@ -70,8 +70,8 @@
                 </canvas>
 
                 <script>
-                    const productos_mas_demandados_labels = [{% for producto in productos_mas_demandados %}"{{ producto.product_name }}"{% if not loop.last %}, {% endif %}{% endfor %}];
-                    const productos_mas_demandados_dataValues = [{% for producto in productos_mas_demandados %}{{ producto.ventas }}{% if not loop.last %}, {% endif %}{% endfor %}];
+                    const productos_mas_demandados_labels = [{% for producto in most_demanded_products %}"{{ producto.product_name }}"{% if not loop.last %}, {% endif %}{% endfor %}];
+                    const productos_mas_demandados_dataValues = [{% for producto in most_demanded_products %}{{ producto.ventas }}{% if not loop.last %}, {% endif %}{% endfor %}];
                     get_most_demanded_products(productos_mas_demandados_labels, productos_mas_demandados_dataValues, 'orange-t08');
                 </script>
             </section>            
@@ -91,8 +91,8 @@
                     </canvas>
 
                     <script>
-                        const proveedores_mas_populares_labels = [{% for proveedor in proveedores_mas_populares %}"{{ proveedor.supplier_name }}"{% if not loop.last %}, {% endif %}{% endfor %}];
-                        const proveedores_mas_populares_dataValues = [{% for proveedor in proveedores_mas_populares %}{{ proveedor.productos }}{% if not loop.last %}, {% endif %}{% endfor %}];
+                        const proveedores_mas_populares_labels = [{% for proveedor in most_popular_suppliers %}"{{ proveedor.supplier_name }}"{% if not loop.last %}, {% endif %}{% endfor %}];
+                        const proveedores_mas_populares_dataValues = [{% for proveedor in most_popular_suppliers %}{{ proveedor.productos }}{% if not loop.last %}, {% endif %}{% endfor %}];
                         get_most_popular_suppliers(proveedores_mas_populares_labels, proveedores_mas_populares_dataValues, 'green-t08');
                     </script>
                 </section>
@@ -109,8 +109,8 @@
                     </canvas>
 
                     <script>
-                        const categorias_mas_populares_labels = [{% for categoria in categorias_mas_populares %}"{{ categoria.category_name }}"{% if not loop.last %}, {% endif %}{% endfor %}];
-                        const categorias_mas_populares_dataValues = [{% for categoria in categorias_mas_populares %}{{ categoria.productos }}{% if not loop.last %}, {% endif %}{% endfor %}];
+                        const categorias_mas_populares_labels = [{% for categoria in most_popular_categories %}"{{ categoria.category_name }}"{% if not loop.last %}, {% endif %}{% endfor %}];
+                        const categorias_mas_populares_dataValues = [{% for categoria in most_popular_categories %}{{ categoria.productos }}{% if not loop.last %}, {% endif %}{% endfor %}];
                         get_most_popular_categories(categorias_mas_populares_labels, categorias_mas_populares_dataValues, 'magenta-t08');
                     </script>
                 </section>
