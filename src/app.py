@@ -90,9 +90,52 @@ def register():
 @app.route("/")
 @login_required
 def home():
+    most_demanded_products = db.session.query(
+        Products.product_name,
+        label(
+            "ventas",
+            (Products.product_limit_stock - Products.product_active_stock)
+        )
+    ).order_by(
+        label("ventas", (Products.product_limit_stock - Products.product_active_stock)).desc()
+    ).limit(5)
+
+    public_products = db.session.query(
+        Suppliers.supplier_name,
+        Categories.category_name,
+        Products.product_name,
+        Products.product_selling_price,
+        Products.product_referencial,
+        Products.product_limit_stock,
+        Products.product_active_stock,
+        Products.product_description,
+    ).join(
+        Suppliers, Products.supplier_id == Suppliers.supplier_id
+    ).join(
+        Categories, Products.category_id == Categories.category_id
+    ).limit(5)
+
+    public_categories = db.session.query(
+        Categories.category_name,
+        label(
+            "total_products",
+            func.count(Products.product_id)
+        )
+    ).join(
+        Products, Products.category_id == Categories.category_id
+    ).group_by(
+        Categories.category_name
+    ).order_by(
+        label("total_products",func.count(Products.product_id)).desc()
+    )
+
+    
     user_name = session['user_name']
     return render_template("index.html", is_admin=session["is_admin"],
-                           user_name=user_name)
+                           user_name=user_name,
+                           most_demanded_products=most_demanded_products,
+                           public_products=public_products,
+                           public_categories=public_categories)
 
 
 @app.route("/profile")
