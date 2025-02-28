@@ -32,8 +32,17 @@
     margin: 0;
 }
 
+.no-side-margin{
+    margin-right: 0;
+    margin-left: 0;
+}
+
 .full-width{
     width: 100%;
+}
+
+.auto-width{
+    width: auto;
 }
 
 .flex-container{
