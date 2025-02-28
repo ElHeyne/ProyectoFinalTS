@@ -56,5 +56,257 @@
     <section class="container-type-1">
         <h1>Panel de Administración</h1> <!-- TODO Saludar al usuario creando un nuevo valor llamado user_name y mandarlo en el form, guardandolo en sesion-->
     </section>
+
+    <section class="container-type-1 flex-container flex-jst-sb">
+        <article class="container-type-1 no-margin full-width">
+            <section class="container-type-1 flex-container flex-column no-margin">
+                <h2>Usuarios Registrados</h2>
+            </section>
+
+            <section class="container-type-1 no-margin flex-container flex-column">
+                <section class="container-type-2 auto-width overflow-x">
+                    <table class="table-type-3 no-table-margin">
+                        <thead>
+                            <th>Usuarios Registrados</th>
+                        </thead>
+                        <tbody>
+                            {%if total_registered_users%}
+                                {%for t_r_u in total_registered_users%}
+                            <tr>
+                                <td>{{t_r_u.total}}</td>
+                            </tr>
+                                {%endfor%}
+                            {%else%}
+                            <tr>
+                                <td>Sin Datos</td>
+                            </tr>
+                            {%endif%}
+                        </tbody>
+                    </table>
+                </section>
+
+                <section class="container-type-2 auto-width overflow-x">
+                    <table class="table-type-3 no-table-margin">
+                        <thead>
+                            <th>Usuarios</th>
+                            <th>Admins</th>
+                        </thead>
+                        <tbody>
+                            {%if total_registered_users%}
+                                {%for t_r_u in total_registered_users%}
+                            <tr>
+                                <td>{{t_r_u.users}}</td>
+                                <td>{{t_r_u.admins}}</td>
+                            </tr>
+                                {%endfor%}
+                            {%else%}
+                            <tr>
+                                <td>Sin Datos</td>
+                            </tr>
+                            {%endif%}
+                        </tbody>
+                    </table>
+                </section>
+            </section>
+        </article>
+        
+        <article class="container-type-1 no-margin full-width">
+            <section class="container-type-1 flex-container flex-column no-margin">
+                <h2>Productos en Venta</h2>
+            </section>
+
+            <section class="container-type-1 no-margin flex-container flex-column">
+                <section class="container-type-2 auto-width {%if most_sold_products%}min-height-150{%else%}min-height-fit{%endif%} overflow-x">
+                    <table class="table-type-3 no-table-margin">
+                        <thead>
+                            <th>Productos Más Vendidos</th>
+                        </thead>
+                        <tbody>
+                            {%if most_sold_products%}
+                                {%for m_s_p in most_sold_products%}
+                            <tr>
+                                <td>{{m_s_p.product_name}}</td>
+                            </tr>
+                                {%endfor%}
+                            {%else%}
+                            <tr>
+                                <td>Sin Datos</td>
+                            </tr>
+                            {%endif%}
+                        </tbody>
+                    </table>
+                </section>
+
+                <section class="container-type-2 auto-width {%if most_critical_stock_products%}min-height-150{%else%}min-height-fit{%endif%} overflow-x">
+                    <table class="table-type-3 no-table-margin">
+                        <thead>
+                            <th colspan="2">Productos Con Stock Crítico</th>
+                        </thead>
+                        <tbody>
+                            {%if most_critical_stock_products%}
+                                {%for m_c_s_p in most_critical_stock_products%}
+                            <tr>
+                                <td style="color: var(--warning-yellow)">{{m_c_s_p.product_stock}}%</td>
+                                <td>{{m_c_s_p.product_name}}</td>
+                            </tr>
+                                {%endfor%}
+                            {%else%}
+                            <tr>
+                                <td>Sin Datos</td>
+                            </tr>
+                            {%endif%}
+                        </tbody>
+                    </table>
+                </section>
+
+                <section class="container-type-2 auto-width {%if products_without_stock%}min-height-150{%else%}min-height-fit{%endif%} overflow-x">
+                    <table class="table-type-3 no-table-margin">
+                        <thead>
+                            <th>Products Sin Stock</th>
+                        </thead>
+                        <tbody>
+                            {%if products_without_stock%}
+                                {%for p_w_s in products_without_stock%}
+                            <tr>
+                                <td>{{p_w_s.productos}}</td>
+                            </tr>
+                                {%endfor%}
+                            {%else%}
+                            <tr>
+                                <td>Sin Datos</td>
+                            </tr>
+                            {%endif%}
+                        </tbody>
+                    </table>
+                </section>
+
+                <section class="container-type-2 auto-width {%if most_negative_profit_products%}min-height-150{%else%}min-height-fit{%endif%} overflow-x">
+                    <table class="table-type-3 no-table-margin">
+                        <thead>
+                            <th colspan="2">Productos Con Balance Negativo</th>
+                        </thead>
+                        <tbody>
+                            {%if most_negative_profit_products%}
+                                {%for m_n_r_p in most_negative_profit_products%}
+                            <tr>
+                                <td style="color: var(--error-red)">{{m_n_r_p.product_profit}}%</td>
+                                <td>{{m_n_r_p.product_name}}</td>
+                            </tr>
+                                {%endfor%}
+                            {%else%}
+                            <tr>
+                                <td>Sin Datos</td>
+                            </tr>
+                            {%endif%}
+                        </tbody>
+                    </table>
+                </section>
+            </section>
+        </article>
+
+        <article class="container-type-1 no-margin full-width">
+            <section class="container-type-1 flex-container flex-column no-margin">
+                <h2>Proveedores Registrados</h2>
+            </section>
+
+            <section class="container-type-1 no-margin flex-container flex-column">
+                <section class="container-type-2 auto-width {%if most_popular_categories%}min-height-150{%else%}min-height-fit{%endif%} overflow-x">
+                    <table class="table-type-3 no-table-margin">
+                        <thead>
+                            <th colspan="2">Proveedores Mas Populares</th>
+                        </thead>
+                        <tbody>
+                            {%if most_popular_suppliers%}
+                                {%for m_p_s in most_popular_suppliers%}
+                            <tr>
+                                <td>{{m_p_s.supplier_name}}</td>
+                                <td>{{m_p_s.product_count}}</td>
+                            </tr>
+                                {%endfor%}
+                            {%else%}
+                            <tr>
+                                <td>Sin Datos</td>
+                            </tr>
+                            {%endif%}
+                        </tbody>
+                    </table>
+                </section>
+
+                <section class="container-type-2 auto-width {%if most_popular_categories%}min-height-150{%else%}min-height-fit{%endif%} overflow-x">
+                    <table class="table-type-3 no-table-margin">
+                        <thead>
+                            <th colspan="2">Proveedores Mas Populares</th>
+                        </thead>
+                        <tbody>
+                            {%if most_discounted_suppliers%}
+                                {%for m_d_s in most_discounted_suppliers%}
+                            <tr>
+                                <td>{{m_d_s.supplier_name}}</td>
+                                <td>{{m_d_s.supplier_discount}}%</td>
+                            </tr>
+                                {%endfor%}
+                            {%else%}
+                            <tr>
+                                <td>Sin Datos</td>
+                            </tr>
+                            {%endif%}
+                        </tbody>
+                    </table>
+                </section>
+            </section>
+        </article>
+
+        <article class="container-type-1 no-margin full-width">
+            <section class="container-type-1 flex-container flex-column no-margin">
+                <h2>Categorias Activas</h2>
+            </section>
+
+            <section class="container-type-1 no-margin flex-container flex-column">
+                <section class="container-type-2 auto-width {%if most_popular_categories%}min-height-150{%else%}min-height-fit{%endif%} overflow-x">
+                    <table class="table-type-3 no-table-margin">
+                        <thead>
+                            <th colspan="2">Categorías Mas Populares</th>
+                        </thead>
+                        <tbody>
+                            {%if most_popular_categories%}
+                                {%for m_p_c in most_popular_categories%}
+                            <tr>
+                                <td>{{m_p_c.category_name}}</td>
+                                <td>{{m_p_c.product_count}}</td>
+                            </tr>
+                                {%endfor%}
+                            {%else%}
+                            <tr>
+                                <td>Sin Datos</td>
+                            </tr>
+                            {%endif%}
+                        </tbody>
+                    </table>
+                </section>
+
+                <section class="container-type-2 auto-width {%if most_popular_categories%}min-height-150{%else%}min-height-fit{%endif%} overflow-x">
+                    <table class="table-type-3 no-table-margin">
+                        <thead>
+                            <th colspan="2">Categorías Sin Productos</th>
+                        </thead>
+                        <tbody>
+                            {%if categories_without_products%}
+                                {%for c_w_p in categories_without_products%}
+                            <tr>
+                                <td>{{c_w_p.category_name}}</td>
+                                <td>{{c_w_p.product_count}}</td>
+                            </tr>
+                                {%endfor%}
+                            {%else%}
+                            <tr>
+                                <td>Sin Datos</td>
+                            </tr>
+                            {%endif%}
+                        </tbody>
+                    </table>
+                </section>
+            </section>
+        </article>
+    </section>
 </body>
 </html>

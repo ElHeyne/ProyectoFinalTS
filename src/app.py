@@ -5,7 +5,7 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 from flask_session import Session
 from functools import wraps
 from models import Users, Suppliers, Categories, Products, Roles
-from sqlalchemy import desc, label, func
+from sqlalchemy import case, desc, label, func
 import db
 import time
 
@@ -184,12 +184,12 @@ def statistics():
         label("productos", func.count(Products.product_name)).desc()
     ).group_by(
         Categories.category_name
-    ).limit(10)
+    ).limit(10) # TODO Ajustar altura de lineas
 
     return render_template("index_statistics.html", is_admin=session["is_admin"],
                            productos_mas_demandados=productos_mas_demandados,
                            proveedores_mas_populares=proveedores_mas_populares,
-                           categorias_mas_populares=categorias_mas_populares)
+                           categorias_mas_populares=categorias_mas_populares) # TODO Cambiar a variables en ingles
 
 
 # RUTAS ADMINISTRADOR
@@ -198,7 +198,128 @@ def statistics():
 @app.route("/admin-panel")
 @admin_login_required
 def admin_panel():
-    return render_template("admin.html", is_admin=session["is_admin"])
+    total_registered_users = db.session.query(
+        label(
+            "total",
+            func.count(Users.user_id)
+        ),
+        label(
+            "users",
+            func.count(case((Users.role_id == 1, 1)))
+        ),
+        label(
+            "admins",
+            func.count(case((Users.role_id == 0, 1)))
+        )
+    )
+
+    most_sold_products = db.session.query(
+        Products.product_name,
+        label(
+            "sales",
+            (Products.product_limit_stock - Products.product_active_stock)
+        )
+    ).order_by(
+        label("sales", (Products.product_limit_stock - Products.product_active_stock)).desc()
+    ).limit(10)
+
+    most_critical_stock_products = db.session.query(
+        Products.product_name,
+        label(
+            "product_stock",
+            func.round((100 * (Products.product_active_stock/Products.product_limit_stock)), 2)
+        )
+    ).order_by(
+        label("product_stock", func.round((100 * (Products.product_active_stock/Products.product_limit_stock)), 2))
+    ).filter(
+        label("product_stock", func.round((100 * (Products.product_active_stock/Products.product_limit_stock)), 2)) < 90
+    ).limit(10)
+
+    products_without_stock = db.session.query(
+        Products.product_name
+    ).filter(
+        Products.product_active_stock == 0
+    ).scalar()
+
+    most_negative_profit_products = db.session.query(
+        Products.product_name,
+        label(
+            "product_profit",
+            func.round((100 * ((Products.product_selling_price / Products.product_price) - 1)), 2)
+        )
+    ).filter(
+        label("product_profit",func.round((100 * ((Products.product_selling_price / Products.product_price) - 1)), 2)) < 0
+    ).order_by(
+        label("product_profit",func.round((100 * ((Products.product_selling_price / Products.product_price) - 1)), 2)).desc()
+    ).limit(10)
+
+    most_popular_suppliers = db.session.query(
+        Suppliers.supplier_name,
+        label(
+            "product_count",
+            func.count(Products.product_name)
+        )
+    ).join(
+        Products, Products.supplier_id == Suppliers.supplier_id
+    ).order_by(
+        label("productos", func.count(Products.product_name)).desc()
+    ).group_by(
+        Suppliers.supplier_name
+    ).having(
+        label("productos", func.count(Products.product_name)) > 0
+    ).limit(10).all()
+
+    most_discounted_suppliers = db.session.query(
+        Suppliers.supplier_name,
+        Suppliers.supplier_discount
+    ).order_by(
+        Suppliers.supplier_discount.desc()
+    ).filter(
+        Suppliers.supplier_discount > 0
+    ).limit(10).all()
+
+    most_popular_categories = db.session.query(
+        Categories.category_name,
+        label(
+            "product_count",
+            func.count(Products.product_name)
+        )
+    ).join(
+        Products, Products.category_id == Categories.category_id
+    ).order_by(
+        label("productos", func.count(Products.product_name)).desc()
+    ).group_by(
+        Categories.category_name
+    ).having(
+        label("productos", func.count(Products.product_name)) > 0
+    ).limit(10).all()
+
+    categories_without_products = db.session.query(
+        Categories.category_name,
+        label(
+            "product_count",
+            func.count(Products.product_name)
+        )
+    ).join(
+        Products, Products.category_id == Categories.category_id
+    ).order_by(
+        label("productos", func.count(Products.product_name)).desc()
+    ).group_by(
+        Categories.category_name
+    ).having(
+        label("productos", func.count(Products.product_name)) == 0
+    ).limit(10).all()
+
+    return render_template("admin.html", is_admin=session["is_admin"],
+                           total_registered_users=total_registered_users,
+                           most_sold_products=most_sold_products,
+                           most_critical_stock_products=most_critical_stock_products,
+                           products_without_stock=products_without_stock,
+                           most_negative_profit_products=most_negative_profit_products,
+                           most_popular_suppliers=most_popular_suppliers,
+                           most_popular_categories=most_popular_categories,
+                           categories_without_products=categories_without_products,
+                           most_discounted_suppliers=most_discounted_suppliers)
 
     # TODO Estadistica de Proveedores con mejor beneficio
 
