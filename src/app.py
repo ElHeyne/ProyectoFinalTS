@@ -227,7 +227,7 @@ def statistics():
         label("productos", func.count(Products.product_name)).desc()
     ).group_by(
         Categories.category_name
-    ).limit(10) # TODO Ajustar altura de lineas
+    ).limit(10)
 
     return render_template("index_statistics.html", is_admin=session["is_admin"],
                            most_demanded_products=most_demanded_products,
