@@ -32,15 +32,11 @@ Utiliza un framework Flask con SQLAlchemy y varias otras dependencias.
 | SQLAlchemy       	| 2.0.36  	|
 | Jinja2           	| 3.1.5   	|
 | Werkzeug         	| 3.1.3   	|
+| pathlib         	| 1.0.1   	|
 
 ## Dependencias
 
-Todas las dependencias estan definidas en el archivo [requirements](https://github.com/ElHeyne/ProyectoFinalTS/blob/main/requirements.txt)
+Todas las dependencias que **dependan de python** estan definidas en el archivo [requirements](https://github.com/ElHeyne/ProyectoFinalTS/blob/main/requirements.txt)
 
- ```
- SQLAlchemy - v.2.0.31
-Flask - v.3.0.3
-Flask-SQLAlchemy - v.3.1.1
-Flask-Session - v.0.8.0
-Werkzeug - v.3.1.3
-```
+Tambien se requiere la instalación de npm y nvm para la instalación de **ChartJS**, que es el responsable de mostrar las gráficas.
+
